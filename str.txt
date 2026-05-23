@@ -1,0 +1,55 @@
+src/
+├── components/
+│   ├── Layout/
+│   │   ├── Layout.jsx
+│   │   ├── Header.jsx
+│   │   ├── BottomNav.jsx
+│   │   └── Sidebar.jsx
+│   ├── Common/
+│   │   ├── LoadingSpinner.jsx
+│   │   ├── OfflineBanner.jsx
+│   │   ├── ErrorBoundary.jsx
+│   │   └── LanguageSwitcher.jsx
+│   └── UI/
+│       ├── Card.jsx
+│       ├── Button.jsx
+│       ├── Input.jsx
+│       └── Modal.jsx
+├── pages/
+│   ├── Login.jsx
+│   ├── Register.jsx
+│   ├── Dashboard.jsx
+│   ├── Products.jsx
+│   ├── Sales.jsx
+│   ├── Invoices.jsx
+│   ├── Taxes.jsx
+│   └── admin/
+│       └── AdminDashboard.jsx
+├── store/
+│   ├── authStore.js
+│   ├── salesStore.js
+│   ├── productStore.js
+│   └── syncStore.js
+├── services/
+│   ├── api.js
+│   └── socket.js
+├── offline/
+│   ├── database.js
+│   ├── syncManager.js
+│   └── swRegistration.js
+├── hooks/
+│   ├── useAuth.js
+│   ├── useOffline.js
+│   └── useNotification.js
+├── locales/
+│   ├── en.json
+│   ├── rw.json
+│   └── fr.json
+├── utils/
+│   ├── formatters.js
+│   ├── validators.js
+│   └── constants.js
+├── i18n.js
+├── App.jsx
+├── App.css
+└── main.jsx

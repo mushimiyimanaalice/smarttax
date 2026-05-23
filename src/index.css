@@ -1,0 +1,140 @@
+@import "tailwindcss";
+
+@theme {
+  --color-green-50: #f0fdf4;
+  --color-green-100: #dcfce7;
+  --color-green-500: #22c55e;
+  --color-green-600: #16a34a;
+  --color-green-700: #15803d;
+  --color-gray-50: #f9fafb;
+  --color-gray-100: #f3f4f6;
+  --color-gray-200: #e5e7eb;
+  --color-gray-300: #d1d5db;
+  --color-gray-400: #9ca3af;
+  --color-gray-500: #6b7280;
+  --color-gray-600: #4b5563;
+  --color-gray-700: #374151;
+  --color-gray-800: #1f2937;
+  --color-blue-500: #3b82f6;
+  --color-blue-600: #2563eb;
+  --color-red-500: #ef4444;
+  --color-red-600: #dc2626;
+  --color-purple-500: #8b5cf6;
+  --color-purple-600: #7c3aed;
+  --color-yellow-500: #eab308;
+}
+
+/* Base styles */
+body {
+  background-color: var(--color-gray-50);
+  font-family: system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Mobile-first responsive container */
+.container-mobile {
+  padding-left: 1rem;
+  padding-right: 1rem;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 28rem;
+}
+
+/* Touch-friendly buttons - minimum touch target size */
+.touch-target {
+  min-height: 44px;
+  min-width: 44px;
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Card component */
+.card {
+  background-color: white;
+  border-radius: 0.75rem;
+  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  border: 1px solid var(--color-gray-100);
+}
+
+/* Input field */
+.input-field {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--color-gray-300);
+  border-radius: 0.5rem;
+  outline: none;
+  transition: all 0.2s;
+}
+
+.input-field:focus {
+  outline: none;
+  ring: 2px solid var(--color-green-500);
+  border-color: transparent;
+}
+
+/* Primary button */
+.btn-primary {
+  width: 100%;
+  background-color: var(--color-green-600);
+  color: white;
+  padding: 0.75rem 1rem;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  transition: background-color 0.2s;
+  min-height: 44px;
+}
+
+.btn-primary:hover {
+  background-color: var(--color-green-700);
+}
+
+.btn-primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Secondary button */
+.btn-secondary {
+  width: 100%;
+  background-color: var(--color-gray-200);
+  color: var(--color-gray-800);
+  padding: 0.75rem 1rem;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  transition: background-color 0.2s;
+  min-height: 44px;
+}
+
+.btn-secondary:hover {
+  background-color: var(--color-gray-300);
+}
+
+/* Animations */
+@keyframes slide-up {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+@keyframes slide-down {
+  from {
+    transform: translateY(-100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+.animate-slide-up {
+  animation: slide-up 0.3s ease-out;
+}
+
+.animate-slide-down {
+  animation: slide-down 0.3s ease-out;
+}

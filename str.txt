@@ -53,3 +53,18 @@ src/
 ├── App.jsx
 ├── App.css
 └── main.jsx
+
+
+Role	Email	Password
+National admin
+national.admin@smarttax.rw
+Admin@12345
+Provincial
+provincial.admin@smarttax.rw
+Admin@12345
+District
+district.admin@smarttax.rw
+Admin@12345
+Sector
+sector.admin@smarttax.rw
+Admin@12345

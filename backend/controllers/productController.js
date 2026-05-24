@@ -1,5 +1,6 @@
 // backend/controllers/productController.js
 const Product = require('../models/Product');
+const { notifyUser } = require('../services/notificationService');
 
 exports.getProducts = async (req, res) => {
   try {
@@ -35,12 +36,19 @@ exports.getProductById = async (req, res) => {
 
 exports.createProduct = async (req, res) => {
   try {
+    const businessId = req.businessId || req.user.activeBusinessId || req.user.businessId;
     const product = new Product({
       ...req.body,
-      businessId: req.businessId || req.user.activeBusinessId || req.user.businessId
+      businessId
     });
     
     await product.save();
+
+    notifyUser(req.user._id, 'product_created', {
+      businessId,
+      metadata: { productName: product.name, productId: product._id },
+    }).catch((err) => console.error('Product notification error:', err));
+
     res.status(201).json(product);
   } catch (error) {
     console.error('createProduct error:', error);
@@ -92,15 +100,26 @@ exports.deleteProduct = async (req, res) => {
 exports.updateStock = async (req, res) => {
   try {
     const { quantity } = req.body;
+    const businessId = req.businessId || req.user.activeBusinessId || req.user.businessId;
     
     const product = await Product.findOneAndUpdate(
-      { _id: req.params.id, businessId: req.user.businessId },
+      { _id: req.params.id, businessId },
       { $inc: { quantity } },
       { new: true }
     );
     
     if (!product) {
       return res.status(404).json({ message: 'Product not found' });
+    }
+
+    if (product.quantity <= 0) {
+      product.quantity = 0;
+      product.isActive = false;
+      await product.save();
+      notifyUser(req.user._id, 'inventory_low', {
+        businessId,
+        metadata: { productName: product.name, productId: product._id },
+      }).catch((err) => console.error('Stock notification error:', err));
     }
     
     res.json(product);

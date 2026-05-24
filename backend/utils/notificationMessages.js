@@ -29,6 +29,21 @@ const MESSAGES = {
     rw: 'Ubucuruzi bushya butegereje kwemezwa mu murenge wawe.',
     fr: 'Nouvelle entreprise en attente d\'approbation dans votre secteur.',
   },
+  product_created: {
+    en: 'New product added to your inventory.',
+    rw: 'Ibicuruzwa bishya byiyongereye mu bubiko bwawe.',
+    fr: 'Nouveau produit ajouté à votre inventaire.',
+  },
+  sale_completed: {
+    en: 'Sale completed successfully.',
+    rw: 'Igurishwa ryakozwe neza.',
+    fr: 'Vente effectuée avec succès.',
+  },
+  inventory_low: {
+    en: 'Some products are running low on stock.',
+    rw: 'Ibicuruzwa bimwe na bimwe biragabanuka mu bubiko.',
+    fr: 'Certains produits sont en rupture de stock imminente.',
+  },
 };
 
 const getMessage = (type, lang = 'en') => {

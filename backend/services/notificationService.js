@@ -2,6 +2,7 @@ const Notification = require('../models/Notification');
 const User = require('../models/User');
 const { getMessage } = require('../utils/notificationMessages');
 const { sendSms } = require('./smsService');
+const { sendPushToUser } = require('./pushService');
 
 let ioInstance = null;
 
@@ -34,6 +35,8 @@ const createNotification = async ({
   if (ioInstance) {
     ioInstance.to(`user:${userId}`).emit('notification', notification);
   }
+
+  sendPushToUser(userId, title || 'SmartTax', message, metadata?.url || '/notifications').catch(() => {});
 
   return notification;
 };

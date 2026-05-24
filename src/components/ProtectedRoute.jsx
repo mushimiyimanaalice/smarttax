@@ -1,34 +1,38 @@
 import { Navigate } from 'react-router-dom';
 import { useAuthStore } from '../store/authStore';
-import { isAdminRole, ADMIN_ROLES } from '../utils/roles';
+import { ADMIN_ROLES } from '../utils/roles';
 
-const ProtectedRoute = ({ children, roles, adminOnly, businessOnly }) => {
-  const token = useAuthStore((state) => state.token);
-  const user = useAuthStore((state) => state.user);
+const ProtectedRoute = ({ children, businessOnly, adminOnly, roles, permissions }) => {
+  const { user, token } = useAuthStore();
 
-  if (!token) {
+  if (!token || !user) {
     return <Navigate to="/login" replace />;
   }
 
-  const userIsAdmin = isAdminRole(user?.role);
-
-  if (businessOnly && userIsAdmin) {
+  if (businessOnly && ADMIN_ROLES.includes(user.role)) {
     return <Navigate to="/admin/dashboard" replace />;
   }
 
-  if (adminOnly && !userIsAdmin) {
-    return <Navigate to="/dashboard" replace />;
-  }
-
-  if (roles && !roles.includes(user?.role)) {
-    if (userIsAdmin) {
+  if (adminOnly) {
+    if (!ADMIN_ROLES.includes(user.role)) {
+      return <Navigate to="/dashboard" replace />;
+    }
+    if (roles && !roles.includes(user.role)) {
       return <Navigate to="/admin/dashboard" replace />;
     }
-    return <Navigate to="/dashboard" replace />;
+  }
+
+  if (permissions && Array.isArray(permissions)) {
+    const hasAllPermissions = permissions.every((perm) => {
+      if (typeof perm === 'function') return perm(user);
+      return true;
+    });
+    if (!hasAllPermissions) {
+      return <Navigate to={ADMIN_ROLES.includes(user.role) ? '/admin/dashboard' : '/dashboard'} replace />;
+    }
   }
 
   return children;
 };
 
-export { ADMIN_ROLES };
 export default ProtectedRoute;

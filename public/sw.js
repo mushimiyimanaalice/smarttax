@@ -65,3 +65,38 @@ self.addEventListener('fetch', (event) => {
     }),
   );
 });
+
+self.addEventListener('push', (event) => {
+  if (!event.data) return;
+  try {
+    const data = event.data.json();
+    const title = data.title || 'SmartTax';
+    const options = {
+      body: data.message || '',
+      icon: '/icons/icon-192.png',
+      badge: '/icons/icon-192.png',
+      vibrate: [200, 100, 200],
+      data: { url: data.url || '/' },
+    };
+    event.waitUntil(self.registration.showNotification(title, options));
+  } catch {
+    event.waitUntil(
+      self.registration.showNotification('SmartTax', { body: event.data.text() })
+    );
+  }
+});
+
+self.addEventListener('notificationclick', (event) => {
+  event.notification.close();
+  const url = event.notification.data?.url || '/';
+  event.waitUntil(
+    clients.matchAll({ type: 'window', includeUncontrolled: true }).then((windowClients) => {
+      const matching = windowClients.find((c) => c.url === url);
+      if (matching) {
+        matching.focus();
+      } else {
+        clients.openWindow(url);
+      }
+    })
+  );
+});

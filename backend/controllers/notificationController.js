@@ -1,4 +1,5 @@
 const Notification = require('../models/Notification');
+const NotificationPreference = require('../models/NotificationPreference');
 
 exports.getNotifications = async (req, res) => {
   try {
@@ -44,6 +45,33 @@ exports.getUnreadCount = async (req, res) => {
     });
     res.json({ count });
   } catch (error) {
+    res.status(500).json({ message: 'Server error' });
+  }
+};
+
+exports.getPreferences = async (req, res) => {
+  try {
+    let prefs = await NotificationPreference.findOne({ userId: req.user._id });
+    if (!prefs) {
+      prefs = await NotificationPreference.create({ userId: req.user._id });
+    }
+    res.json(prefs);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Server error' });
+  }
+};
+
+exports.updatePreferences = async (req, res) => {
+  try {
+    const prefs = await NotificationPreference.findOneAndUpdate(
+      { userId: req.user._id },
+      req.body,
+      { new: true, upsert: true }
+    );
+    res.json(prefs);
+  } catch (error) {
+    console.error(error);
     res.status(500).json({ message: 'Server error' });
   }
 };

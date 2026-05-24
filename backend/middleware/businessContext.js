@@ -29,6 +29,7 @@ const businessContext = async (req, res, next) => {
   });
 
   if (!business) {
+    console.warn(`[businessContext] No business found for id=${businessId}, userId=${req.user._id}, role=${req.user.role}`);
     return res.status(403).json({ message: 'Business not found or access denied' });
   }
 

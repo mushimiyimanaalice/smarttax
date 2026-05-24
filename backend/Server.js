@@ -106,6 +106,9 @@ if (activityRoute) app.use('/api/activity', activityRoute);
 const aiRoute = safeRequire('ai');
 if (aiRoute) app.use('/api/ai', aiRoute);
 
+const ussdRoute = safeRequire('ussd');
+if (ussdRoute) app.use('/api/ussd', ussdRoute);
+
 // 404 handler
 app.use('/api', (req, res) => {
   res.status(404).json({ message: 'API endpoint not found' });
@@ -146,7 +149,18 @@ io.on('connection', (socket) => {
 
 app.set('io', io);
 
+const webpush = require('web-push');
 const { startSchedulers } = require('./jobs/scheduler');
+
+if (!process.env.VAPID_PUBLIC_KEY || !process.env.VAPID_PRIVATE_KEY) {
+  const vapidKeys = webpush.generateVAPIDKeys();
+  process.env.VAPID_PUBLIC_KEY = vapidKeys.publicKey;
+  process.env.VAPID_PRIVATE_KEY = vapidKeys.privateKey;
+  console.log('🔑 Generated VAPID keys for push notifications');
+  console.log('   Add these to your .env file to persist:');
+  console.log(`   VAPID_PUBLIC_KEY=${vapidKeys.publicKey}`);
+  console.log(`   VAPID_PRIVATE_KEY=${vapidKeys.privateKey}`);
+}
 try {
   const { startWorkers } = require('./jobs/queues');
   startWorkers();

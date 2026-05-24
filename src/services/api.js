@@ -20,6 +20,17 @@ api.interceptors.request.use(
     if (businessId) {
       config.headers['X-Business-Id'] = businessId;
     }
+    const authStorage = localStorage.getItem('auth-storage');
+    if (!businessId && authStorage) {
+      try {
+        const parsed = JSON.parse(authStorage);
+        const uid = parsed?.state?.user?.activeBusinessId || parsed?.state?.user?.businessId;
+        if (uid) {
+          config.headers['X-Business-Id'] = uid;
+          localStorage.setItem('activeBusinessId', uid);
+        }
+      } catch (e) { /* ignore */ }
+    }
     return config;
   },
   (error) => Promise.reject(error)

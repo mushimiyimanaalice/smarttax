@@ -7,6 +7,7 @@ const SyncQueue = require('../models/SyncQueue');
 const { computeLineItem } = require('../utils/tax');
 const { createInvoiceFromSale } = require('../utils/createInvoiceFromSale');
 const { trackSale } = require('../services/activityService');
+const { notifyUser } = require('../services/notificationService');
 
 const generateInvoiceNumber = () => {
   return `INV-${Date.now()}-${Math.random().toString(36).substr(2, 6)}`;
@@ -45,7 +46,17 @@ exports.createSale = async (req, res) => {
 
       // Update inventory
       product.quantity -= item.quantity;
-      await product.save();
+      if (product.quantity <= 0) {
+        product.quantity = 0;
+        product.isActive = false;
+        await product.save();
+        notifyUser(req.user._id, 'inventory_low', {
+          businessId,
+          metadata: { productName: product.name, productId: product._id },
+        }).catch((err) => console.error('Stock notification error:', err));
+      } else {
+        await product.save();
+      }
     }
 
     const totalAmount = subtotal + taxAmount; // subtotal + tax = VAT-inclusive line totals
@@ -71,6 +82,10 @@ exports.createSale = async (req, res) => {
     await sale.save();
     await createInvoiceFromSale(sale, businessId);
     await trackSale(businessId);
+    notifyUser(req.user._id, 'sale_completed', {
+      businessId,
+      metadata: { saleId: sale._id, invoiceNumber: sale.invoiceNumber, totalAmount },
+    }).catch((err) => console.error('Sale notification error:', err));
 
     // Create tax transaction if payment is cash
     if (paymentMethod === 'cash') {

@@ -1,16 +1,16 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuthStore } from '../store/authStore';
 import { getHomePath } from '../utils/roles';
 import { useTranslation } from 'react-i18next';
-import { Eye, EyeOff, Smartphone } from 'lucide-react';
+import { Eye, EyeOff, Mail, Lock, LogIn } from 'lucide-react';
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const { login } = useAuthStore();
+  const { login, error } = useAuthStore();
   const navigate = useNavigate();
   const { t } = useTranslation();
 
@@ -25,78 +25,87 @@ const Login = () => {
     }
   };
 
+  const inputClass = "w-full pl-10 pr-4 py-3 rounded-xl text-sm border transition-all focus:outline-none focus:ring-2";
+  const inputStyle = { background: 'var(--bg-input)', borderColor: 'var(--border-color)', color: 'var(--text-primary)', '--tw-ring-color': '#00A551' };
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-50 to-green-100 flex items-center justify-center p-4">
+    <div className="min-h-screen flex items-center justify-center p-4" style={{ background: 'var(--bg-body)' }}>
       <div className="w-full max-w-md">
-        <div className="text-center mb-8">
-          <div className="w-20 h-20 bg-green-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg">
-            <span className="text-white text-3xl font-bold">ST</span>
+        <div className="text-center mb-6">
+          <div className="w-14 h-14 rounded-2xl flex items-center justify-center mx-auto mb-3 shadow-lg" style={{ background: 'linear-gradient(135deg, #003DA5, #00A551)' }}>
+            <span className="text-white font-bold text-xl">ST</span>
           </div>
-          <h1 className="text-2xl font-bold text-gray-800">SmartTax</h1>
-          <p className="text-gray-600 mt-2">{t('auth.login')}</p>
+          <h1 className="text-2xl font-bold" style={{ color: 'var(--text-primary)' }}>SmartTax</h1>
+          <p className="text-sm mt-1" style={{ color: 'var(--text-secondary)' }}>{t('auth.login')}</p>
         </div>
 
-        <form onSubmit={handleSubmit} className="bg-white rounded-2xl shadow-xl p-6">
-          <div className="mb-4">
-            <label className="block text-gray-700 text-sm font-medium mb-2">
-              {t('auth.email')}
-            </label>
+        <form onSubmit={handleSubmit} className="rounded-3xl shadow-2xl p-6 sm:p-8 space-y-5 border" style={{ background: 'var(--bg-card)', borderColor: 'var(--border-color)' }}>
+          <div>
+            <h2 className="text-lg font-semibold mb-1" style={{ color: 'var(--text-primary)' }}>Welcome back</h2>
+            <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>Sign in to your SmartTax account</p>
+          </div>
+
+          <div className="relative">
+            <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4.5 h-4.5" style={{ color: 'var(--text-secondary)' }} />
             <input
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
-              placeholder="you@example.com"
+              className={inputClass}
+              style={inputStyle}
+              placeholder="Email Address"
               required
             />
           </div>
 
-          <div className="mb-6">
-            <label className="block text-gray-700 text-sm font-medium mb-2">
-              {t('auth.password')}
-            </label>
-            <div className="relative">
-              <input
-                type={showPassword ? 'text' : 'password'}
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 pr-12"
-                placeholder="••••••••"
-                required
-              />
-              <button
-                type="button"
-                onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3 top-1/2 transform -translate-y-1/2"
-              >
-                {showPassword ? <EyeOff className="w-5 h-5 text-gray-400" /> : <Eye className="w-5 h-5 text-gray-400" />}
-              </button>
-            </div>
+          <div className="relative">
+            <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4.5 h-4.5" style={{ color: 'var(--text-secondary)' }} />
+            <input
+              type={showPassword ? 'text' : 'password'}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className={inputClass}
+              style={{ ...inputStyle, paddingRight: '3rem' }}
+              placeholder="Password"
+              required
+            />
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              className="absolute right-3.5 top-1/2 -translate-y-1/2"
+              style={{ color: 'var(--text-secondary)' }}
+            >
+              {showPassword ? <EyeOff className="w-4.5 h-4.5" /> : <Eye className="w-4.5 h-4.5" />}
+            </button>
           </div>
 
           <button
             type="submit"
             disabled={isLoading}
-            className="w-full bg-green-600 text-white py-3 rounded-lg font-semibold hover:bg-green-700 transition disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full py-3.5 rounded-xl text-sm font-bold text-white transition-all duration-200 hover:shadow-lg active:scale-[0.98] disabled:opacity-60 flex items-center justify-center gap-2"
+            style={{ background: 'linear-gradient(135deg, #003DA5, #00A551)' }}
           >
-            {isLoading ? t('common.loading') : t('auth.login')}
+            <LogIn className="w-4.5 h-4.5" />
+            {isLoading ? 'Signing in...' : t('auth.login')}
           </button>
 
-          <div className="mt-4 text-center">
-            <Link to="/register" className="text-green-600 text-sm hover:underline">
-              {t('auth.no_account')} {t('auth.register')}
+          {error && (
+            <div className="flex items-center gap-2 px-4 py-3 rounded-xl text-sm font-medium" style={{ background: 'rgba(239,68,68,0.1)', color: '#EF4444', border: '1px solid rgba(239,68,68,0.2)' }}>
+              <span className="w-1.5 h-1.5 rounded-full shrink-0" style={{ background: '#EF4444' }} />
+              {error}
+            </div>
+          )}
+
+          <div className="text-center">
+            <Link to="/register" className="text-sm font-medium transition-colors hover:underline" style={{ color: '#00A551' }}>
+              Don't have an account? Register
             </Link>
           </div>
-        </form>
 
-        <div className="mt-6 text-center space-y-2">
-          <p className="text-xs text-gray-500">
+          <p className="text-xs text-center" style={{ color: 'var(--text-secondary)' }}>
             Secure tax management for Rwanda SMEs
           </p>
-          <p className="text-xs text-slate-600 bg-slate-100 rounded-lg px-3 py-2 max-w-sm mx-auto">
-            <strong>Government admins:</strong> use your admin email — you will be taken to the desktop admin console, not the business mobile app.
-          </p>
-        </div>
+        </form>
       </div>
     </div>
   );

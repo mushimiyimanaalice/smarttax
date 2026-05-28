@@ -17,7 +17,7 @@ const Layout = () => {
   }, [initActiveBusiness]);
 
   return (
-    <div className="min-h-screen bg-gray-50 pb-20">
+    <div className="min-h-screen pb-20" style={{ background: 'var(--bg-body)' }}>
       <Header />
       <main className="px-4 mx-auto max-w-md pt-4">
         <BusinessSwitcher />
@@ -29,7 +29,8 @@ const Layout = () => {
       <button
         type="button"
         onClick={() => setAiOpen(true)}
-        className="fixed bottom-20 right-4 z-40 w-14 h-14 bg-green-600 text-white rounded-full shadow-lg flex items-center justify-center hover:bg-green-700 active:scale-95 transition-transform"
+        className="fixed bottom-20 right-4 z-40 w-14 h-14 text-white rounded-full shadow-lg flex items-center justify-center active:scale-95 transition-transform"
+        style={{ background: 'linear-gradient(135deg, #003DA5, #00A551)' }}
         aria-label="Open Umwishingizi AI"
       >
         <Bot className="w-7 h-7" />

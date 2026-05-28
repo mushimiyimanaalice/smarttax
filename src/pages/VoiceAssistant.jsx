@@ -90,7 +90,7 @@ const VoiceAssistant = () => {
     <div className="flex flex-col items-center justify-center min-h-[70vh] space-y-8">
       <div className="text-center">
         <Bot className="w-16 h-16 text-green-600 mx-auto mb-3" />
-        <h1 className="text-xl font-bold text-slate-800">Voice Assistant</h1>
+        <h1 className="text-xl font-bold text-theme-primary">Voice Assistant</h1>
         <p className="text-sm text-slate-500 mt-1">Hold the button and speak to Umwishingizi</p>
       </div>
 
@@ -100,7 +100,7 @@ const VoiceAssistant = () => {
             key={l.code}
             onClick={() => setLanguage(l.code)}
             className={`px-4 py-2 text-sm font-medium rounded-xl transition ${
-              language === l.code ? 'bg-green-600 text-white' : 'bg-slate-100 text-slate-600'
+              language === l.code ? 'bg-green-600 text-white' : 'bg-slate-100 text-theme-secondary'
             }`}
           >
             {l.label}
@@ -138,9 +138,9 @@ const VoiceAssistant = () => {
       )}
 
       {transcript && (
-        <div className="w-full max-w-md bg-white rounded-xl border border-slate-200 p-4">
+        <div className="w-full max-w-md bg-theme-card rounded-xl border border-theme p-4">
           <p className="text-xs text-slate-400 mb-1">You said:</p>
-          <p className="text-sm text-slate-800">{transcript}</p>
+          <p className="text-sm text-theme-primary">{transcript}</p>
         </div>
       )}
 
@@ -153,7 +153,7 @@ const VoiceAssistant = () => {
               <Volume2 className="w-4 h-4 text-green-600" />
             </button>
           </div>
-          <p className="text-sm text-slate-800">{response}</p>
+          <p className="text-sm text-theme-primary">{response}</p>
         </div>
       )}
     </div>

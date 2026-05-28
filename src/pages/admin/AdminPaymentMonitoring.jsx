@@ -27,7 +27,7 @@ const AdminPaymentMonitoring = () => {
 
   return (
     <div className="space-y-6">
-      <h1 className="text-xl sm:text-2xl font-bold text-slate-800">Payment Monitoring</h1>
+      <h1 className="text-xl sm:text-2xl font-bold text-theme-primary">Payment Monitoring</h1>
 
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
         <StatCard title="Total Payments" value={`RWF ${(data?.totalPayments ?? 0).toLocaleString()}`} icon={Wallet} color="green" />
@@ -36,8 +36,8 @@ const AdminPaymentMonitoring = () => {
         <StatCard title="Success Rate" value={`${data?.successRate ?? 0}%`} icon={TrendingUp} color={data?.successRate >= 90 ? 'green' : 'amber'} />
       </div>
 
-      <div className="bg-white rounded-xl border border-slate-200 p-4 sm:p-6">
-        <h2 className="text-base font-semibold text-slate-800 mb-4">Payment Trend</h2>
+      <div className="bg-theme-card rounded-xl border border-theme p-4 sm:p-6">
+        <h2 className="text-base font-semibold text-theme-primary mb-4">Payment Trend</h2>
         <div className="h-64 sm:h-80">
           <ResponsiveContainer width="100%" height="100%">
             <BarChart data={data?.trend || []}>

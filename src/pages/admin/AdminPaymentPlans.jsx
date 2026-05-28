@@ -41,7 +41,7 @@ const AdminPaymentPlans = () => {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-xl sm:text-2xl font-bold text-slate-800">Payment Plans</h1>
+        <h1 className="text-xl sm:text-2xl font-bold text-theme-primary">Payment Plans</h1>
         <button onClick={() => setShowCreate(true)} className="px-4 py-2 bg-green-600 text-white text-sm font-medium rounded-lg hover:bg-green-700 transition">
           Create Plan
         </button>
@@ -49,7 +49,7 @@ const AdminPaymentPlans = () => {
 
       {showCreate && (
         <div className="fixed inset-0 z-50 bg-black/50 flex items-center justify-center p-4">
-          <div className="bg-white rounded-xl w-full max-w-md">
+          <div className="bg-theme-card rounded-xl w-full max-w-md">
             <div className="flex items-center justify-between p-4 border-b">
               <h2 className="text-lg font-semibold">Create Payment Plan</h2>
               <button onClick={() => setShowCreate(false)}><X className="w-5 h-5" /></button>
@@ -65,23 +65,23 @@ const AdminPaymentPlans = () => {
         </div>
       )}
 
-      <div className="bg-white rounded-xl border border-slate-200 overflow-hidden">
+      <div className="bg-theme-card rounded-xl border border-theme overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead className="bg-slate-50">
               <tr>
-                <th className="text-left p-3 font-medium text-slate-600">Business</th>
-                <th className="text-right p-3 font-medium text-slate-600">Total</th>
-                <th className="text-right p-3 font-medium text-slate-600">Installments</th>
-                <th className="text-right p-3 font-medium text-slate-600">Remaining</th>
-                <th className="text-right p-3 font-medium text-slate-600">Status</th>
-                <th className="text-right p-3 font-medium text-slate-600">Start Date</th>
+                <th className="text-left p-3 font-medium text-theme-secondary">Business</th>
+                <th className="text-right p-3 font-medium text-theme-secondary">Total</th>
+                <th className="text-right p-3 font-medium text-theme-secondary">Installments</th>
+                <th className="text-right p-3 font-medium text-theme-secondary">Remaining</th>
+                <th className="text-right p-3 font-medium text-theme-secondary">Status</th>
+                <th className="text-right p-3 font-medium text-theme-secondary">Start Date</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100">
               {data.map((plan, i) => (
                 <tr key={plan._id || i} className="hover:bg-slate-50">
-                  <td className="p-3 font-medium text-slate-800">{plan.businessId?.name || 'N/A'}</td>
+                  <td className="p-3 font-medium text-theme-primary">{plan.businessId?.name || 'N/A'}</td>
                   <td className="p-3 text-right text-slate-700">RWF {plan.totalAmount?.toLocaleString()}</td>
                   <td className="p-3 text-right text-slate-700">{plan.installments}</td>
                   <td className="p-3 text-right text-slate-700">RWF {plan.remainingAmount?.toLocaleString()}</td>

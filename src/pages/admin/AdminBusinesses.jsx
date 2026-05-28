@@ -7,7 +7,7 @@ const statusColors = {
   pending: 'bg-amber-100 text-amber-800',
   approved: 'bg-green-100 text-green-800',
   suspended: 'bg-red-100 text-red-800',
-  rejected: 'bg-slate-100 text-slate-800',
+  rejected: 'bg-slate-100 text-theme-primary',
 };
 
 const AdminBusinesses = () => {
@@ -51,8 +51,8 @@ const AdminBusinesses = () => {
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
         <div>
-          <h2 className="text-2xl font-bold text-slate-800">Businesses</h2>
-          <p className="text-slate-600 mt-1">Scope: {getAdminScopeLabel(user)}</p>
+          <h2 className="text-2xl font-bold text-theme-primary">Businesses</h2>
+          <p className="text-theme-secondary mt-1">Scope: {getAdminScopeLabel(user)}</p>
         </div>
         <div className="flex flex-wrap gap-2">
           <input
@@ -83,28 +83,28 @@ const AdminBusinesses = () => {
         </div>
       </div>
 
-      <div className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-x-auto">
+      <div className="bg-theme-card rounded-xl border border-theme shadow-sm overflow-x-auto">
         <table className="w-full min-w-[800px] text-left">
           <thead className="bg-slate-50 border-b">
             <tr>
-              <th className="px-6 py-4 text-xs font-semibold text-slate-600 uppercase">Name</th>
-              <th className="px-6 py-4 text-xs font-semibold text-slate-600 uppercase">TIN</th>
-              <th className="px-6 py-4 text-xs font-semibold text-slate-600 uppercase">Type</th>
-              <th className="px-6 py-4 text-xs font-semibold text-slate-600 uppercase">Location</th>
-              <th className="px-6 py-4 text-xs font-semibold text-slate-600 uppercase">Province</th>
-              <th className="px-6 py-4 text-xs font-semibold text-slate-600 uppercase">District</th>
-              <th className="px-6 py-4 text-xs font-semibold text-slate-600 uppercase">Sector</th>
-              <th className="px-6 py-4 text-xs font-semibold text-slate-600 uppercase">Tax status</th>
-              <th className="px-6 py-4 text-xs font-semibold text-slate-600 uppercase">Status</th>
-              <th className="px-6 py-4 text-xs font-semibold text-slate-600 uppercase">Owner</th>
+              <th className="px-6 py-4 text-xs font-semibold text-theme-secondary uppercase">Name</th>
+              <th className="px-6 py-4 text-xs font-semibold text-theme-secondary uppercase">TIN</th>
+              <th className="px-6 py-4 text-xs font-semibold text-theme-secondary uppercase">Type</th>
+              <th className="px-6 py-4 text-xs font-semibold text-theme-secondary uppercase">Location</th>
+              <th className="px-6 py-4 text-xs font-semibold text-theme-secondary uppercase">Province</th>
+              <th className="px-6 py-4 text-xs font-semibold text-theme-secondary uppercase">District</th>
+              <th className="px-6 py-4 text-xs font-semibold text-theme-secondary uppercase">Sector</th>
+              <th className="px-6 py-4 text-xs font-semibold text-theme-secondary uppercase">Tax status</th>
+              <th className="px-6 py-4 text-xs font-semibold text-theme-secondary uppercase">Status</th>
+              <th className="px-6 py-4 text-xs font-semibold text-theme-secondary uppercase">Owner</th>
             </tr>
           </thead>
           <tbody className="divide-y">
             {filtered.map((b) => (
               <tr key={b._id} className="hover:bg-slate-50">
                 <td className="px-6 py-4 font-medium">{b.name}</td>
-                <td className="px-6 py-4 text-slate-600">{b.taxIdentificationNumber}</td>
-                <td className="px-6 py-4 text-slate-600 capitalize">{b.businessType}</td>
+                <td className="px-6 py-4 text-theme-secondary">{b.taxIdentificationNumber}</td>
+                <td className="px-6 py-4 text-theme-secondary capitalize">{b.businessType}</td>
                 <td className="px-6 py-4 text-sm">{b.address?.province || '—'}</td>
                 <td className="px-6 py-4 text-sm">{b.address?.district || '—'}</td>
                 <td className="px-6 py-4 text-sm">{b.address?.sector || '—'}</td>

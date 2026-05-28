@@ -19,15 +19,15 @@ const AdminAuditLogs = () => {
 
   return (
     <div className="space-y-6">
-      <h2 className="text-2xl font-bold text-slate-800">Audit logs</h2>
-      <div className="bg-white rounded-xl border border-slate-200 overflow-x-auto">
+      <h2 className="text-2xl font-bold text-theme-primary">Audit logs</h2>
+      <div className="bg-theme-card rounded-xl border border-theme overflow-x-auto">
         <table className="w-full min-w-[800px] text-left text-sm">
           <thead className="bg-slate-50 border-b">
             <tr>
-              <th className="px-6 py-4 font-semibold text-slate-600">When</th>
-              <th className="px-6 py-4 font-semibold text-slate-600">User</th>
-              <th className="px-6 py-4 font-semibold text-slate-600">Action</th>
-              <th className="px-6 py-4 font-semibold text-slate-600">Target</th>
+              <th className="px-6 py-4 font-semibold text-theme-secondary">When</th>
+              <th className="px-6 py-4 font-semibold text-theme-secondary">User</th>
+              <th className="px-6 py-4 font-semibold text-theme-secondary">Action</th>
+              <th className="px-6 py-4 font-semibold text-theme-secondary">Target</th>
             </tr>
           </thead>
           <tbody className="divide-y">
@@ -38,12 +38,12 @@ const AdminAuditLogs = () => {
             ) : (
               logs.map((log) => (
                 <tr key={log._id} className="hover:bg-slate-50">
-                  <td className="px-6 py-3 text-slate-600">
+                  <td className="px-6 py-3 text-theme-secondary">
                     {new Date(log.createdAt).toLocaleString()}
                   </td>
                   <td className="px-6 py-3">{log.userId?.fullName || log.userId?.email || '—'}</td>
                   <td className="px-6 py-3 font-medium">{log.action}</td>
-                  <td className="px-6 py-3 text-slate-600">{log.targetType} {log.targetId?.toString().slice(-6)}</td>
+                  <td className="px-6 py-3 text-theme-secondary">{log.targetType} {log.targetId?.toString().slice(-6)}</td>
                 </tr>
               ))
             )}

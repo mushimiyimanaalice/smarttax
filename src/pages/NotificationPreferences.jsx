@@ -61,7 +61,7 @@ const NotificationPreferences = () => {
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
-        <h1 className="text-lg font-bold text-slate-800">Notification Preferences</h1>
+        <h1 className="text-lg font-bold text-theme-primary">Notification Preferences</h1>
         <button onClick={handleSave} disabled={saving} className="text-xs px-3 py-1.5 bg-green-600 text-white rounded-lg hover:bg-green-700 disabled:opacity-50 inline-flex items-center gap-1">
           <Save className="w-3 h-3" />{saving ? 'Saving...' : 'Save'}
         </button>
@@ -73,7 +73,7 @@ const NotificationPreferences = () => {
         </div>
       )}
 
-      <div className="bg-white rounded-xl border border-slate-200 divide-y divide-slate-100">
+      <div className="bg-theme-card rounded-xl border border-theme divide-y divide-slate-100">
         {settings.map((s) => {
           const Icon = s.icon;
           return (

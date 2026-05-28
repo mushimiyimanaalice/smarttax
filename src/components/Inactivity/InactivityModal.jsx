@@ -45,10 +45,10 @@ const InactivityModal = () => {
     <div className="fixed inset-0 z-[55] bg-black/50 flex items-end sm:items-center justify-center p-4">
       <form
         onSubmit={submit}
-        className="bg-white w-full max-w-md rounded-2xl p-6 shadow-xl"
+        className="bg-theme-card w-full max-w-md rounded-2xl p-6 shadow-xl"
       >
-        <h2 className="text-lg font-bold text-gray-800 mb-2">Explain today&apos;s inactivity</h2>
-        <p className="text-sm text-gray-600 mb-4">
+        <h2 className="text-lg font-bold text-theme-primary mb-2">Explain today&apos;s inactivity</h2>
+        <p className="text-sm text-theme-secondary mb-4">
           No sales activity was detected today. Please tell us why your business was inactive.
         </p>
 

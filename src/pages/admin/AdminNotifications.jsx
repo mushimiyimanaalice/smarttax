@@ -48,7 +48,7 @@ const AdminNotifications = () => {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-xl sm:text-2xl font-bold text-slate-800">Notifications</h1>
+          <h1 className="text-xl sm:text-2xl font-bold text-theme-primary">Notifications</h1>
           <p className="text-sm text-slate-500">{unreadCount} unread</p>
         </div>
         {unreadCount > 0 && (
@@ -65,14 +65,14 @@ const AdminNotifications = () => {
             key={n._id}
             onClick={() => !n.read && markRead(n._id)}
             className={`flex items-start gap-3 p-4 rounded-xl border cursor-pointer transition ${
-              n.read ? 'bg-white border-slate-200' : 'bg-green-50 border-green-200'
+              n.read ? 'bg-theme-card border-theme' : 'bg-green-50 border-green-200'
             }`}
           >
             <div className={`p-2 rounded-full ${n.read ? 'bg-slate-100' : 'bg-green-100'}`}>
               <Bell className={`w-4 h-4 ${n.read ? 'text-slate-400' : 'text-green-600'}`} />
             </div>
             <div className="flex-1 min-w-0">
-              <p className={`text-sm ${n.read ? 'text-slate-600' : 'text-slate-800 font-medium'}`}>
+              <p className={`text-sm ${n.read ? 'text-theme-secondary' : 'text-theme-primary font-medium'}`}>
                 {n.title}
               </p>
               <p className="text-xs text-slate-500 mt-0.5">{n.message}</p>

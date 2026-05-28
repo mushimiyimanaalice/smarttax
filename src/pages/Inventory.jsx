@@ -24,7 +24,7 @@ const Inventory = () => {
 
   return (
     <div className="space-y-4">
-      <h1 className="text-lg font-bold text-slate-800">Inventory</h1>
+      <h1 className="text-lg font-bold text-theme-primary">Inventory</h1>
 
       {lowStock.length > 0 && (
         <div className="bg-amber-50 border border-amber-200 rounded-xl p-3 flex items-center gap-2">
@@ -36,15 +36,15 @@ const Inventory = () => {
       <div className="relative">
         <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
         <input type="text" placeholder="Search inventory..." value={search} onChange={(e) => setSearch(e.target.value)}
-          className="w-full pl-10 pr-4 py-2.5 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-green-500" />
+          className="w-full pl-10 pr-4 py-2.5 border border-theme rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-green-500" />
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
         {filtered.map((product) => (
-          <div key={product._id} className={`bg-white rounded-xl border p-4 ${product.quantity < 10 ? 'border-amber-200 bg-amber-50/50' : 'border-slate-200'}`}>
+          <div key={product._id} className={`bg-theme-card rounded-xl border p-4 ${product.quantity < 10 ? 'border-amber-200 bg-amber-50/50' : 'border-theme'}`}>
             <div className="flex items-start justify-between">
               <div>
-                <h3 className="text-sm font-semibold text-slate-800">{product.name}</h3>
+                <h3 className="text-sm font-semibold text-theme-primary">{product.name}</h3>
                 {product.sku && <p className="text-xs text-slate-400">SKU: {product.sku}</p>}
               </div>
               <span className={`text-xs font-medium px-2 py-0.5 rounded-full ${

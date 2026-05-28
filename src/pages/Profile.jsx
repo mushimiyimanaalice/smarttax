@@ -1,26 +1,47 @@
 import { useState } from 'react';
 import { useAuthStore } from '../store/authStore';
 import api from '../services/api';
-import { User, Save, LogOut, Languages } from 'lucide-react';
+import { Save, LogOut, User, Mail, Phone, MapPin, BadgeCheck } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 const Profile = () => {
   const { user, logout, updateUser } = useAuthStore();
   const navigate = useNavigate();
-  const [form, setForm] = useState({ fullName: user?.fullName || '', phoneNumber: user?.phoneNumber || '' });
+  const [form, setForm] = useState({
+    fullName: user?.fullName || '',
+    email: user?.email || '',
+    phoneNumber: user?.phoneNumber || '',
+    address: user?.address || '',
+  });
   const [saving, setSaving] = useState(false);
-  const [message, setMessage] = useState('');
+  const [message, setMessage] = useState({ text: '', type: '' });
+
+  const initials = (user?.fullName || 'U')
+    .split(' ')
+    .map((n) => n[0])
+    .join('')
+    .toUpperCase()
+    .slice(0, 2);
+
+  const gradientAvatar = {
+    background: 'linear-gradient(135deg, #003DA5 0%, #00A551 50%, #FAD201 100%)',
+  };
 
   const handleSave = async (e) => {
     e.preventDefault();
     setSaving(true);
+    setMessage({ text: '', type: '' });
     try {
-      const { data } = await api.put('/admin/profile', form);
+      const { data } = await api.put('/admin/profile', {
+        fullName: form.fullName,
+        phoneNumber: form.phoneNumber,
+        address: form.address,
+      });
       updateUser(data);
-      setMessage('Profile updated');
-      setTimeout(() => setMessage(''), 3000);
-    } catch (err) {
-      setMessage('Failed to update');
+      setMessage({ text: 'Profile updated successfully', type: 'success' });
+      setTimeout(() => setMessage({ text: '', type: '' }), 3000);
+    } catch {
+      setMessage({ text: 'Failed to update profile', type: 'error' });
     } finally {
       setSaving(false);
     }
@@ -31,44 +52,214 @@ const Profile = () => {
     navigate('/login');
   };
 
-  return (
-    <div className="space-y-4">
-      <h1 className="text-lg font-bold text-slate-800">Profile Settings</h1>
+  const fields = [
+    { key: 'fullName', label: 'Full Name', icon: User, type: 'text' },
+    { key: 'email', label: 'Email Address', icon: Mail, type: 'email', disabled: true },
+    { key: 'phoneNumber', label: 'Phone Number', icon: Phone, type: 'tel' },
+    { key: 'address', label: 'Address', icon: MapPin, type: 'text' },
+  ];
 
-      {message && (
-        <div className={`p-3 rounded-lg text-sm font-medium ${message.includes('updated') ? 'bg-green-50 text-green-700' : 'bg-red-50 text-red-700'}`}>
-          {message}
+  const msgStyles = {
+    success: { background: '#00A55115', color: '#00A551', border: '1px solid #00A55130' },
+    error: { background: '#dc262615', color: '#dc2626', border: '1px solid #dc262630' },
+  };
+
+  return (
+    <div style={{ maxWidth: 560, margin: '0 auto', padding: '0 4px' }}>
+      {message.text && (
+        <div
+          style={{
+            ...msgStyles[message.type],
+            display: 'flex',
+            alignItems: 'center',
+            gap: 8,
+            padding: '10px 14px',
+            borderRadius: 12,
+            fontSize: 14,
+            fontWeight: 500,
+            marginBottom: 16,
+          }}
+        >
+          <BadgeCheck size={18} />
+          {message.text}
         </div>
       )}
 
-      <div className="bg-white rounded-xl border border-slate-200 p-4">
-        <div className="flex items-center gap-4 mb-4 pb-3 border-b">
-          <div className="w-14 h-14 bg-green-100 rounded-full flex items-center justify-center">
-            <User className="w-7 h-7 text-green-600" />
+      <div
+        style={{
+          background: 'var(--bg-card)',
+          border: '1px solid var(--border-color)',
+          borderRadius: 16,
+          boxShadow: '0 1px 3px rgba(0,0,0,0.06)',
+          overflow: 'hidden',
+          marginBottom: 16,
+        }}
+      >
+        <div
+          style={{
+            padding: '28px 20px 20px',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            gap: 12,
+            borderBottom: '1px solid var(--border-color)',
+          }}
+        >
+          <div
+            style={{
+              ...gradientAvatar,
+              width: 72,
+              height: 72,
+              borderRadius: '50%',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              fontSize: 24,
+              fontWeight: 700,
+              color: '#fff',
+              boxShadow: '0 4px 14px rgba(0,61,165,0.3)',
+            }}
+          >
+            {initials}
           </div>
-          <div>
-            <h2 className="font-semibold text-slate-800">{user?.fullName}</h2>
-            <p className="text-xs text-slate-500">{user?.email}</p>
+          <div style={{ textAlign: 'center' }}>
+            <h2 style={{ fontSize: 18, fontWeight: 700, color: 'var(--text-primary)', margin: 0 }}>
+              {user?.fullName}
+            </h2>
+            <p style={{ fontSize: 13, color: 'var(--text-secondary)', margin: '2px 0 0' }}>
+              {user?.email}
+            </p>
           </div>
         </div>
 
-        <form onSubmit={handleSave} className="space-y-3">
-          <label className="block">
-            <span className="text-xs font-medium text-slate-700">Full Name</span>
-            <input value={form.fullName} onChange={(e) => setForm({ ...form, fullName: e.target.value })} className="mt-1 w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-green-500" />
-          </label>
-          <label className="block">
-            <span className="text-xs font-medium text-slate-700">Phone Number</span>
-            <input value={form.phoneNumber} onChange={(e) => setForm({ ...form, phoneNumber: e.target.value })} className="mt-1 w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-green-500" />
-          </label>
-          <button type="submit" disabled={saving} className="w-full py-2.5 bg-green-600 text-white font-medium rounded-lg hover:bg-green-700 disabled:opacity-50 text-sm flex items-center justify-center gap-2">
-            <Save className="w-4 h-4" />{saving ? 'Saving...' : 'Save Changes'}
+        <form onSubmit={handleSave} style={{ padding: '20px' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+            {fields.map(({ key, label, icon: Icon, type, disabled }) => (
+              <div key={key}>
+                <label
+                  style={{
+                    display: 'block',
+                    fontSize: 12,
+                    fontWeight: 600,
+                    color: 'var(--text-secondary)',
+                    marginBottom: 6,
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.3px',
+                  }}
+                >
+                  {label}
+                </label>
+                <div
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    background: disabled ? 'var(--bg-card)' : 'var(--bg-input)',
+                    border: `1px solid ${disabled ? 'var(--border-color)' : 'var(--border-color)'}`,
+                    borderRadius: 12,
+                    overflow: 'hidden',
+                    transition: 'border-color 0.2s',
+                  }}
+                >
+                  <span
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      width: 44,
+                      minHeight: 44,
+                      color: '#003DA5',
+                      flexShrink: 0,
+                    }}
+                  >
+                    <Icon size={18} />
+                  </span>
+                  <input
+                    type={type}
+                    value={form[key]}
+                    disabled={disabled}
+                    onChange={(e) => setForm({ ...form, [key]: e.target.value })}
+                    style={{
+                      flex: 1,
+                      minHeight: 44,
+                      border: 'none',
+                      outline: 'none',
+                      background: 'transparent',
+                      fontSize: 14,
+                      color: 'var(--text-primary)',
+                      paddingRight: 12,
+                    }}
+                    onFocus={(e) => {
+                      e.currentTarget.parentElement.style.borderColor = '#003DA5';
+                    }}
+                    onBlur={(e) => {
+                      e.currentTarget.parentElement.style.borderColor = 'var(--border-color)';
+                    }}
+                  />
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <button
+            type="submit"
+            disabled={saving}
+            style={{
+              width: '100%',
+              minHeight: 48,
+              marginTop: 24,
+              background: 'linear-gradient(135deg, #003DA5 0%, #00A551 100%)',
+              color: '#fff',
+              border: 'none',
+              borderRadius: 12,
+              fontSize: 15,
+              fontWeight: 600,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: 8,
+              cursor: saving ? 'not-allowed' : 'pointer',
+              opacity: saving ? 0.6 : 1,
+              transition: 'opacity 0.2s, transform 0.1s',
+            }}
+            onMouseEnter={(e) => {
+              if (!saving) e.currentTarget.style.transform = 'translateY(-1px)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.transform = 'translateY(0)';
+            }}
+          >
+            <Save size={18} />
+            {saving ? 'Saving...' : 'Save Changes'}
           </button>
         </form>
       </div>
 
-      <button onClick={handleLogout} className="w-full py-3 text-sm font-medium text-red-600 bg-white border border-red-200 rounded-xl hover:bg-red-50 flex items-center justify-center gap-2">
-        <LogOut className="w-4 h-4" />
+      <button
+        onClick={handleLogout}
+        style={{
+          width: '100%',
+          minHeight: 48,
+          background: 'var(--bg-card)',
+          border: '1px solid #dc262640',
+          borderRadius: 12,
+          color: '#dc2626',
+          fontSize: 15,
+          fontWeight: 600,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          gap: 8,
+          cursor: 'pointer',
+          transition: 'background 0.2s',
+        }}
+        onMouseEnter={(e) => {
+          e.currentTarget.style.background = '#dc262610';
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.background = 'var(--bg-card)';
+        }}
+      >
+        <LogOut size={18} />
         Logout
       </button>
     </div>

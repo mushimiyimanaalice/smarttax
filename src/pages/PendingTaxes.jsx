@@ -41,7 +41,7 @@ const PendingTaxes = () => {
 
   return (
     <div className="space-y-4">
-      <h1 className="text-lg font-bold text-slate-800">Pending Taxes</h1>
+      <h1 className="text-lg font-bold text-theme-primary">Pending Taxes</h1>
 
       <div className="bg-amber-50 border border-amber-200 rounded-xl p-4">
         <div className="flex items-center gap-2 text-amber-800">
@@ -52,14 +52,14 @@ const PendingTaxes = () => {
 
       <div className="space-y-2">
         {taxes.map((tax) => (
-          <div key={tax._id} className="bg-white rounded-xl border border-slate-200 p-4">
+          <div key={tax._id} className="bg-theme-card rounded-xl border border-theme p-4">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-semibold text-slate-800 capitalize">{tax.type} Tax</p>
+                <p className="text-sm font-semibold text-theme-primary capitalize">{tax.type} Tax</p>
                 <p className="text-xs text-slate-500">Due: {tax.dueDate ? new Date(tax.dueDate).toLocaleDateString() : 'N/A'}</p>
               </div>
               <div className="text-right">
-                <p className="text-sm font-bold text-slate-800">RWF {tax.amount?.toLocaleString()}</p>
+                <p className="text-sm font-bold text-theme-primary">RWF {tax.amount?.toLocaleString()}</p>
                 <button
                   onClick={() => setShowPayModal(tax._id)}
                   className="mt-1 inline-flex items-center gap-1 px-3 py-1 bg-green-600 text-white text-xs font-medium rounded-lg hover:bg-green-700"
@@ -86,8 +86,8 @@ const PendingTaxes = () => {
 
       {showPayModal && (
         <div className="fixed inset-0 z-50 bg-black/50 flex items-center justify-center p-4">
-          <div className="bg-white rounded-xl w-full max-w-sm p-5">
-            <h2 className="text-lg font-semibold text-slate-800 mb-4">Pay with Mobile Money</h2>
+          <div className="bg-theme-card rounded-xl w-full max-w-sm p-5">
+            <h2 className="text-lg font-semibold text-theme-primary mb-4">Pay with Mobile Money</h2>
             <div className="space-y-3">
               <div className="flex items-center gap-2 p-3 bg-blue-50 rounded-lg">
                 <Smartphone className="w-5 h-5 text-blue-600" />
@@ -98,10 +98,10 @@ const PendingTaxes = () => {
                 placeholder="Phone Number (e.g. 078xxxxxxx)"
                 value={phoneNumber}
                 onChange={(e) => setPhoneNumber(e.target.value)}
-                className="w-full px-3 py-2.5 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-green-500"
+                className="w-full px-3 py-2.5 border border-theme rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-green-500"
               />
               <div className="flex gap-2">
-                <button onClick={() => setShowPayModal(null)} className="flex-1 py-2.5 text-sm font-medium text-slate-600 bg-slate-100 rounded-lg hover:bg-slate-200">Cancel</button>
+                <button onClick={() => setShowPayModal(null)} className="flex-1 py-2.5 text-sm font-medium text-theme-secondary bg-slate-100 rounded-lg hover:bg-slate-200">Cancel</button>
                 <button onClick={() => handlePay(showPayModal)} disabled={!phoneNumber} className="flex-1 py-2.5 text-sm font-medium text-white bg-green-600 rounded-lg hover:bg-green-700 disabled:opacity-50">Pay Now</button>
               </div>
             </div>

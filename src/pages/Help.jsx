@@ -15,10 +15,10 @@ const Help = () => {
 
   return (
     <div className="space-y-4">
-      <h1 className="text-lg font-bold text-slate-800">Help & Support</h1>
+      <h1 className="text-lg font-bold text-theme-primary">Help & Support</h1>
 
-      <div className="bg-white rounded-xl border border-slate-200 p-4">
-        <h2 className="text-sm font-semibold text-slate-800 mb-3">Contact Us</h2>
+      <div className="bg-theme-card rounded-xl border border-theme p-4">
+        <h2 className="text-sm font-semibold text-theme-primary mb-3">Contact Us</h2>
         <div className="space-y-3">
           <a href="mailto:support@smarttax.rw" className="flex items-center gap-3 p-3 bg-slate-50 rounded-lg hover:bg-green-50 transition">
             <Mail className="w-5 h-5 text-green-600" />
@@ -44,8 +44,8 @@ const Help = () => {
         </div>
       </div>
 
-      <div className="bg-white rounded-xl border border-slate-200 p-4">
-        <h2 className="text-sm font-semibold text-slate-800 mb-3">Frequently Asked Questions</h2>
+      <div className="bg-theme-card rounded-xl border border-theme p-4">
+        <h2 className="text-sm font-semibold text-theme-primary mb-3">Frequently Asked Questions</h2>
         <div className="space-y-1">
           {faqs.map((faq, i) => (
             <div key={i} className="border border-slate-100 rounded-lg overflow-hidden">

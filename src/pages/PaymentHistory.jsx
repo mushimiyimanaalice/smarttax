@@ -39,20 +39,20 @@ const PaymentHistory = () => {
 
   return (
     <div className="space-y-4">
-      <h1 className="text-lg font-bold text-slate-800">Payment History</h1>
+      <h1 className="text-lg font-bold text-theme-primary">Payment History</h1>
 
       <div className="space-y-2">
         {payments.map((p) => {
           const StatusIcon = STATUS_ICONS[p.status] || Clock;
           return (
-            <div key={p._id} className="bg-white rounded-xl border border-slate-200 p-4">
+            <div key={p._id} className="bg-theme-card rounded-xl border border-theme p-4">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                  <div className={`p-2 rounded-lg ${STATUS_COLORS[p.status] || 'bg-slate-50 text-slate-600'}`}>
+                  <div className={`p-2 rounded-lg ${STATUS_COLORS[p.status] || 'bg-slate-50 text-theme-secondary'}`}>
                     <StatusIcon className="w-5 h-5" />
                   </div>
                   <div>
-                    <p className="text-sm font-medium text-slate-800 capitalize">
+                    <p className="text-sm font-medium text-theme-primary capitalize">
                       {p.paymentMethod?.replace('_', ' ')} Payment
                     </p>
                     <p className="text-xs text-slate-500">
@@ -62,7 +62,7 @@ const PaymentHistory = () => {
                   </div>
                 </div>
                 <div className="text-right">
-                  <p className="text-sm font-bold text-slate-800">RWF {p.amount?.toLocaleString()}</p>
+                  <p className="text-sm font-bold text-theme-primary">RWF {p.amount?.toLocaleString()}</p>
                   <span className={`inline-block px-2 py-0.5 rounded-full text-xs font-medium ${
                     p.status === 'completed' ? 'bg-green-100 text-green-700' :
                     p.status === 'pending' ? 'bg-amber-100 text-amber-700' :

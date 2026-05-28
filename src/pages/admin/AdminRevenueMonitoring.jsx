@@ -29,14 +29,14 @@ const AdminRevenueMonitoring = () => {
   return (
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-        <h1 className="text-xl sm:text-2xl font-bold text-slate-800">Revenue Monitoring</h1>
+        <h1 className="text-xl sm:text-2xl font-bold text-theme-primary">Revenue Monitoring</h1>
         <div className="flex gap-2">
           {['daily', 'weekly', 'monthly', 'yearly'].map((p) => (
             <button
               key={p}
               onClick={() => setPeriod(p)}
               className={`px-3 py-1.5 text-xs font-medium rounded-lg transition ${
-                period === p ? 'bg-green-600 text-white' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+                period === p ? 'bg-green-600 text-white' : 'bg-slate-100 text-theme-secondary hover:bg-slate-200'
               }`}
             >
               {p.charAt(0).toUpperCase() + p.slice(1)}
@@ -52,8 +52,8 @@ const AdminRevenueMonitoring = () => {
         <StatCard title="Outstanding" value={`RWF ${(data?.outstanding ?? 0).toLocaleString()}`} icon={Calendar} color="red" />
       </div>
 
-      <div className="bg-white rounded-xl border border-slate-200 p-4 sm:p-6">
-        <h2 className="text-base font-semibold text-slate-800 mb-4">
+      <div className=" bg-theme-card rounded-xl border border-theme p-4 sm:p-6">
+        <h2 className="text-base font-semibold text-theme-primary mb-4">
           {period.charAt(0).toUpperCase() + period.slice(1)} Revenue Trend
         </h2>
         <div className="h-64 sm:h-80">
@@ -71,14 +71,14 @@ const AdminRevenueMonitoring = () => {
       </div>
 
       {data?.byMethod?.length > 0 && (
-        <div className="bg-white rounded-xl border border-slate-200 p-4 sm:p-6">
-          <h2 className="text-base font-semibold text-slate-800 mb-4">Revenue by Payment Method</h2>
+        <div className=" bg-theme-card rounded-xl border border-theme p-4 sm:p-6">
+          <h2 className="text-base font-semibold text-theme-primary mb-4">Revenue by Payment Method</h2>
           <div className="space-y-3">
             {data.byMethod.map((item, i) => (
               <div key={i} className="flex items-center justify-between p-3 bg-slate-50 rounded-lg">
                 <span className="text-sm font-medium text-slate-700 capitalize">{item.method}</span>
                 <div className="text-right">
-                  <p className="text-sm font-semibold text-slate-800">RWF {item.amount.toLocaleString()}</p>
+                  <p className="text-sm font-semibold text-theme-primary">RWF {item.amount.toLocaleString()}</p>
                   <p className="text-xs text-slate-500">{item.count} transactions</p>
                 </div>
               </div>

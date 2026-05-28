@@ -33,9 +33,9 @@ const AdminReports = () => {
 
   return (
     <div className="space-y-6">
-      <h2 className="text-2xl font-bold text-slate-800">Tax collection reports</h2>
+      <h2 className="text-2xl font-bold text-theme-primary">Tax collection reports</h2>
 
-      <div className="bg-white rounded-xl p-6 border border-slate-200 shadow-sm">
+      <div className=" bg-theme-card rounded-xl p-6 border border-theme shadow-sm">
         <div className="h-96">
           {report.length > 0 ? (
             <ResponsiveContainer width="100%" height="100%">
@@ -53,13 +53,13 @@ const AdminReports = () => {
         </div>
       </div>
 
-      <div className="bg-white rounded-xl border border-slate-200 overflow-hidden">
+      <div className=" bg-theme-card rounded-xl border border-theme overflow-hidden">
         <table className="w-full text-left">
           <thead className="bg-slate-50 border-b">
             <tr>
-              <th className="px-6 py-3 text-xs font-semibold text-slate-600 uppercase">Date</th>
-              <th className="px-6 py-3 text-xs font-semibold text-slate-600 uppercase">Amount (RWF)</th>
-              <th className="px-6 py-3 text-xs font-semibold text-slate-600 uppercase">Transactions</th>
+              <th className="px-6 py-3 text-xs font-semibold text-theme-secondary uppercase">Date</th>
+              <th className="px-6 py-3 text-xs font-semibold text-theme-secondary uppercase">Amount (RWF)</th>
+              <th className="px-6 py-3 text-xs font-semibold text-theme-secondary uppercase">Transactions</th>
             </tr>
           </thead>
           <tbody className="divide-y">

@@ -1,6 +1,7 @@
 import { useEffect, Suspense, lazy } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { useAuthStore } from './store/authStore';
+import { useThemeStore } from './store/themeStore';
 import { initOfflineSync } from './offline/syncManager';
 import { setupPushNotifications } from './offline/swRegistration';
 import api from './services/api';
@@ -63,12 +64,18 @@ const Help = lazy(() => import('./pages/Help'));
 
 function App() {
   const checkAuth = useAuthStore((state) => state.checkAuth);
+  const user = useAuthStore((state) => state.user);
+  const initTheme = useThemeStore((state) => state.initTheme);
 
   useEffect(() => {
+    initTheme();
     checkAuth();
     initOfflineSync();
-    setupPushNotifications(api).catch(() => {});
-  }, [checkAuth]);
+  }, [checkAuth, initTheme]);
+
+  useEffect(() => {
+    if (user) setupPushNotifications(api).catch(() => {});
+  }, [user]);
 
   return (
     <Router>

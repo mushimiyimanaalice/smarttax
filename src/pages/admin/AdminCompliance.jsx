@@ -19,23 +19,23 @@ const AdminCompliance = () => {
 
   return (
     <div className="space-y-6">
-      <h2 className="text-2xl font-bold text-slate-800">Compliance overview</h2>
-      <div className="bg-white rounded-xl border border-slate-200 overflow-x-auto">
+      <h2 className="text-2xl font-bold text-theme-primary">Compliance overview</h2>
+      <div className="bg-theme-card rounded-xl border border-theme overflow-x-auto">
         <table className="w-full min-w-[700px] text-left">
           <thead className="bg-slate-50 border-b">
             <tr>
-              <th className="px-6 py-4 text-xs font-semibold text-slate-600 uppercase">Business</th>
-              <th className="px-6 py-4 text-xs font-semibold text-slate-600 uppercase">Reg. #</th>
-              <th className="px-6 py-4 text-xs font-semibold text-slate-600 uppercase">Tax due</th>
-              <th className="px-6 py-4 text-xs font-semibold text-slate-600 uppercase">Tax paid</th>
-              <th className="px-6 py-4 text-xs font-semibold text-slate-600 uppercase">Compliance %</th>
+              <th className="px-6 py-4 text-xs font-semibold text-theme-secondary uppercase">Business</th>
+              <th className="px-6 py-4 text-xs font-semibold text-theme-secondary uppercase">Reg. #</th>
+              <th className="px-6 py-4 text-xs font-semibold text-theme-secondary uppercase">Tax due</th>
+              <th className="px-6 py-4 text-xs font-semibold text-theme-secondary uppercase">Tax paid</th>
+              <th className="px-6 py-4 text-xs font-semibold text-theme-secondary uppercase">Compliance %</th>
             </tr>
           </thead>
           <tbody className="divide-y">
             {reports.map((r, i) => (
               <tr key={i} className="hover:bg-slate-50">
                 <td className="px-6 py-4 font-medium">{r.name}</td>
-                <td className="px-6 py-4 text-slate-600">{r.registrationNumber}</td>
+                <td className="px-6 py-4 text-theme-secondary">{r.registrationNumber}</td>
                 <td className="px-6 py-4">RWF {(r.totalTaxDue || 0).toLocaleString()}</td>
                 <td className="px-6 py-4">RWF {(r.totalTaxPaid || 0).toLocaleString()}</td>
                 <td className="px-6 py-4">

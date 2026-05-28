@@ -29,14 +29,14 @@ const AdminActivityMonitoring = () => {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-xl sm:text-2xl font-bold text-slate-800">Activity Monitoring</h1>
+        <h1 className="text-xl sm:text-2xl font-bold text-theme-primary">Activity Monitoring</h1>
         <div className="flex gap-2">
           {['7d', '30d', '90d'].map((p) => (
             <button
               key={p}
               onClick={() => setPeriod(p)}
               className={`px-3 py-1.5 text-xs font-medium rounded-lg transition ${
-                period === p ? 'bg-green-600 text-white' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+                period === p ? 'bg-green-600 text-white' : 'bg-slate-100 text-theme-secondary hover:bg-slate-200'
               }`}
             >
               {p}
@@ -52,8 +52,8 @@ const AdminActivityMonitoring = () => {
         <StatCard title="Flagged" value={data?.flagged ?? 0} icon={AlertTriangle} color="red" />
       </div>
 
-      <div className="bg-white rounded-xl border border-slate-200 p-4 sm:p-6">
-        <h2 className="text-base font-semibold text-slate-800 mb-4">Daily Activity Trend</h2>
+      <div className="bg-theme-card rounded-xl border border-theme p-4 sm:p-6">
+        <h2 className="text-base font-semibold text-theme-primary mb-4">Daily Activity Trend</h2>
         <div className="h-64 sm:h-80">
           <ResponsiveContainer width="100%" height="100%">
             <LineChart data={data?.trend || []}>

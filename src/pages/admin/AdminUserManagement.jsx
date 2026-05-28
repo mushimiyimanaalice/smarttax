@@ -3,39 +3,50 @@ import api from '../../services/api';
 import LoadingSpinner from '../../components/Common/LoadingSpinner';
 import { useAuthStore } from '../../store/authStore';
 import { getRoleLabel, getRoleBadgeColor } from '../../utils/roles';
-import { Users, UserPlus, Search, X } from 'lucide-react';
+import { Users, UserPlus, Search, X, User, Mail, Lock, Phone, Shield, MapPin, Map, Layers } from 'lucide-react';
+import { PROVINCES, DISTRICTS_MAP, SECTORS_MAP, normalizeProvince } from '../../data/rwandaGeo';
 
-const PROVINCES = [
-  'City of Kigali', 'Northern Province', 'Southern Province', 'Eastern Province', 'Western Province',
-];
+const iconMap = { User, Mail, Lock, Phone, Shield, MapPin, Map, Layers };
 
-const PROVINCE_ALIAS = {
-  kigali: 'City of Kigali',
-  northern: 'Northern Province',
-  southern: 'Southern Province',
-  eastern: 'Eastern Province',
-  western: 'Western Province',
+const IconInput = ({ icon, placeholder, value, onChange, type = 'text', required }) => {
+  const Icon = iconMap[icon] || User;
+  return (
+    <div className="relative">
+      <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none" style={{ color: 'var(--text-secondary)' }}>
+        <Icon className="w-4.5 h-4.5" />
+      </div>
+      <input
+        type={type}
+        placeholder={placeholder}
+        value={value}
+        onChange={onChange}
+        required={required}
+        className="w-full pl-10 pr-4 py-2.5 rounded-xl text-sm border transition-all duration-200 focus:outline-none focus:ring-2"
+        style={{ background: 'var(--bg-input)', borderColor: 'var(--border-color)', color: 'var(--text-primary)' }}
+      />
+    </div>
+  );
 };
 
-const DISTRICTS_MAP = {
-  'City of Kigali': ['Gasabo', 'Kicukiro', 'Nyarugenge'],
-  'Northern Province': ['Burera', 'Gakenke', 'Gicumbi', 'Musanze', 'Rulindo'],
-  'Southern Province': ['Gisagara', 'Huye', 'Kamonyi', 'Muhanga', 'Nyamagabe', 'Nyanza', 'Nyaruguru', 'Ruhango'],
-  'Eastern Province': ['Bugesera', 'Gatsibo', 'Kayonza', 'Kirehe', 'Ngoma', 'Nyagatare', 'Rwamagana'],
-  'Western Province': ['Karongi', 'Ngororero', 'Nyabihu', 'Nyamasheke', 'Rubavu', 'Rusizi', 'Rutsiro'],
-};
-
-const SECTORS_MAP = {
-  'Gasabo': ['Bumbogo', 'Gatsata', 'Gikomero', 'Gisozi', 'Jabana', 'Jali', 'Kacyiru', 'Kimihurura', 'Kimironko', 'Remera', 'Rusororo', 'Rutunga'],
-  'Kicukiro': ['Gahanga', 'Gatenga', 'Gikondo', 'Kagarama', 'Kanombe', 'Kicukiro', 'Kigarama', 'Masaka', 'Niboye', 'Nyarugunga'],
-  'Nyarugenge': ['Gitega', 'Kanyinya', 'Kigali', 'Kimisagara', 'Mageragere', 'Muhima', 'Nyakabanda', 'Nyamirambo', 'Nyarugenge', 'Rwezamenyo'],
-};
-
-const normalizeProvince = (p) => {
-  if (!p) return '';
-  if (DISTRICTS_MAP[p]) return p;
-  const alias = PROVINCE_ALIAS[p.toLowerCase().trim()];
-  return alias || p;
+const IconSelect = ({ icon, value, onChange, children, required, disabled }) => {
+  const Icon = iconMap[icon] || Shield;
+  return (
+    <div className="relative">
+      <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none z-10" style={{ color: 'var(--text-secondary)' }}>
+        <Icon className="w-4.5 h-4.5" />
+      </div>
+      <select
+        value={value}
+        onChange={onChange}
+        required={required}
+        disabled={disabled}
+        className="w-full pl-10 pr-4 py-2.5 rounded-xl text-sm border transition-all duration-200 focus:outline-none focus:ring-2 appearance-none"
+        style={{ background: 'var(--bg-input)', borderColor: 'var(--border-color)', color: 'var(--text-primary)' }}
+      >
+        {children}
+      </select>
+    </div>
+  );
 };
 
 const AdminUserManagement = ({ filter }) => {
@@ -159,7 +170,7 @@ const AdminUserManagement = ({ filter }) => {
   return (
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-        <h1 className="text-xl sm:text-2xl font-bold text-slate-800">{title}</h1>
+        <h1 className="text-xl sm:text-2xl font-bold text-theme-primary">{title}</h1>
         {canCreate && (
           <button
             onClick={() => setShowCreate(true)}
@@ -178,100 +189,106 @@ const AdminUserManagement = ({ filter }) => {
           placeholder="Search by name or email..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className="w-full pl-10 pr-4 py-2.5 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+          className="w-full pl-10 pr-4 py-2.5 border border-theme rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
         />
       </div>
 
       {showCreate && (
         <div className="fixed inset-0 z-50 bg-black/50 flex items-center justify-center p-4">
-          <div className="bg-white rounded-xl w-full max-w-md max-h-[90vh] overflow-y-auto">
-            <div className="flex items-center justify-between p-4 border-b border-slate-200">
-              <h2 className="text-lg font-semibold text-slate-800">Create Admin User</h2>
+          <div className="bg-theme-card rounded-xl w-full max-w-md max-h-[90vh] overflow-y-auto">
+            <div className="flex items-center justify-between p-4 border-b border-theme">
+              <h2 className="text-lg font-semibold text-theme-primary">Create Admin User</h2>
               <button onClick={() => setShowCreate(false)} className="p-1 hover:bg-slate-100 rounded">
                 <X className="w-5 h-5" />
               </button>
             </div>
-            <form onSubmit={handleCreate} className="p-4 space-y-3">
-              <input placeholder="Full Name" value={form.fullName} onChange={(e) => updateForm('fullName', e.target.value)} className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm" required />
-              <input type="email" placeholder="Email" value={form.email} onChange={(e) => updateForm('email', e.target.value)} className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm" required />
-              <input type="password" placeholder="Password (min 6 chars)" value={form.password} onChange={(e) => updateForm('password', e.target.value)} className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm" required />
-              <input placeholder="Phone Number" value={form.phoneNumber} onChange={(e) => updateForm('phoneNumber', e.target.value)} className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm" required />
+            <form onSubmit={handleCreate} className="p-5 space-y-4">
+              <IconInput icon="User" placeholder="Full Name" value={form.fullName} onChange={(e) => updateForm('fullName', e.target.value)} required />
+              <IconInput icon="Mail" type="email" placeholder="Email address" value={form.email} onChange={(e) => updateForm('email', e.target.value)} required />
+              <IconInput icon="Lock" type="password" placeholder="Password (min 6 chars)" value={form.password} onChange={(e) => updateForm('password', e.target.value)} required />
+              <IconInput icon="Phone" placeholder="Phone Number" value={form.phoneNumber} onChange={(e) => updateForm('phoneNumber', e.target.value)} required />
 
-              <select value={form.role} onChange={(e) => updateForm('role', e.target.value)} className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm">
+              <IconSelect icon="Shield" value={form.role} onChange={(e) => updateForm('role', e.target.value)}>
                 {getAvailableRoles().map((r) => (
                   <option key={r.value} value={r.value}>{r.label}</option>
                 ))}
-              </select>
+              </IconSelect>
 
               {requiresProvince && (
-                <select value={form.province} onChange={(e) => updateForm('province', e.target.value)} className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm" required>
+                <IconSelect icon="MapPin" value={form.province} onChange={(e) => updateForm('province', e.target.value)} required>
                   <option value="">Select Province</option>
                   {PROVINCES.map((p) => <option key={p} value={p}>{p}</option>)}
-                </select>
+                </IconSelect>
               )}
 
               {requiresDistrict && (
-                <select value={form.district} onChange={(e) => updateForm('district', e.target.value)}
-                  className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm"
+                <IconSelect icon="Map" value={form.district} onChange={(e) => updateForm('district', e.target.value)}
                   required disabled={!form.province || availableDistricts.length === 0}>
                   <option value="">Select District</option>
                   {availableDistricts.map((d) => <option key={d} value={d}>{d}</option>)}
-                </select>
+                </IconSelect>
               )}
 
               {requiresSector && (
                 availableSectors ? (
-                  <select value={form.sector} onChange={(e) => updateForm('sector', e.target.value)} className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm" required disabled={!form.district}>
+                  <IconSelect icon="Layers" value={form.sector} onChange={(e) => updateForm('sector', e.target.value)} required disabled={!form.district}>
                     <option value="">Select Sector</option>
                     {availableSectors.map((s) => <option key={s} value={s}>{s}</option>)}
-                  </select>
+                  </IconSelect>
                 ) : (
-                  <input placeholder="Sector" value={form.sector} onChange={(e) => updateForm('sector', e.target.value)}
-                    className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm" required />
+                  <IconInput icon="Layers" placeholder="Sector" value={form.sector} onChange={(e) => updateForm('sector', e.target.value)} required />
                 )
               )}
 
               {user?.role !== 'national_admin' && (
-                <div className="p-2.5 bg-slate-50 rounded-lg text-xs text-slate-500">
+                <div className="flex items-center gap-2 p-3 rounded-xl text-xs font-medium" style={{ background: 'rgba(0,165,81,0.06)', color: '#00A551' }}>
+                  <MapPin className="w-3.5 h-3.5 shrink-0" />
                   Will be created under: {[user?.province, user?.district].filter(Boolean).join(', ')}
                 </div>
               )}
 
-              <button type="submit" className="w-full py-2.5 bg-green-600 text-white font-medium rounded-lg hover:bg-green-700 transition text-sm">Create Admin</button>
+              <button
+                type="submit"
+                className="w-full py-3 text-sm font-semibold text-white rounded-xl transition-all duration-200 hover:shadow-lg hover:scale-[1.01] active:scale-[0.99]"
+                style={{ background: 'linear-gradient(135deg, #00A551, #008040)' }}
+              >
+                Create Admin
+              </button>
             </form>
           </div>
         </div>
       )}
 
-      <div className="bg-white rounded-xl border border-slate-200 overflow-hidden">
-        <div className="overflow-x-auto">
+      <div className="rounded-xl border overflow-hidden" style={{ background: 'var(--bg-card)', borderColor: 'var(--border-color)' }}>
+        <div className="overflow-x-auto" style={{ scrollbarWidth: 'none' }}>
           <table className="w-full text-sm">
-            <thead className="bg-slate-50">
-              <tr>
-                <th className="text-left p-3 font-medium text-slate-600">Name</th>
-                <th className="text-left p-3 font-medium text-slate-600">Email</th>
-                <th className="text-left p-3 font-medium text-slate-600">Role</th>
-                <th className="text-left p-3 font-medium text-slate-600">Scope</th>
-                <th className="text-right p-3 font-medium text-slate-600">Actions</th>
+            <thead>
+              <tr className="border-b" style={{ borderColor: 'var(--border-color)', background: 'rgba(0,0,0,0.02)' }}>
+                <th className="text-left p-3 font-semibold text-xs uppercase tracking-wider" style={{ color: 'var(--text-secondary)' }}>Name</th>
+                <th className="text-left p-3 font-semibold text-xs uppercase tracking-wider" style={{ color: 'var(--text-secondary)' }}>Email</th>
+                <th className="text-left p-3 font-semibold text-xs uppercase tracking-wider" style={{ color: 'var(--text-secondary)' }}>Role</th>
+                <th className="text-left p-3 font-semibold text-xs uppercase tracking-wider" style={{ color: 'var(--text-secondary)' }}>Scope</th>
+                <th className="text-right p-3 font-semibold text-xs uppercase tracking-wider" style={{ color: 'var(--text-secondary)' }}>Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-100">
+            <tbody>
               {filtered.map((u) => (
-                <tr key={u._id} className="hover:bg-slate-50">
-                  <td className="p-3 font-medium text-slate-800">{u.fullName}</td>
-                  <td className="p-3 text-slate-600">{u.email}</td>
+                <tr key={u._id} className="border-b transition-colors hover:bg-black/[0.02]" style={{ borderColor: 'var(--border-color)' }}>
+                  <td className="p-3 font-medium" style={{ color: 'var(--text-primary)' }}>{u.fullName}</td>
+                  <td className="p-3" style={{ color: 'var(--text-secondary)' }}>{u.email}</td>
                   <td className="p-3">
                     <span className={`inline-block px-2 py-0.5 rounded-full text-xs font-medium ${getRoleBadgeColor(u.role)}`}>
                       {getRoleLabel(u.role)}
                     </span>
                   </td>
-                  <td className="p-3 text-xs text-slate-500">
+                  <td className="p-3 text-xs" style={{ color: 'var(--text-secondary)' }}>
                     {[u.province, u.district, u.sector].filter(Boolean).join(', ') || 'N/A'}
                   </td>
                   <td className="p-3 text-right">
                     <button
                       onClick={() => handleDelete(u._id)}
-                      className="text-xs text-red-600 hover:text-red-800 font-medium"
+                      className="text-xs font-medium transition-colors hover:text-red-800 disabled:opacity-30"
+                      style={{ color: '#EF4444' }}
                       disabled={user?.role !== 'national_admin'}
                     >
                       Delete
@@ -281,7 +298,7 @@ const AdminUserManagement = ({ filter }) => {
               ))}
               {filtered.length === 0 && (
                 <tr>
-                  <td colSpan={5} className="p-6 text-center text-slate-500">No admin users found</td>
+                  <td colSpan={5} className="p-6 text-center text-sm" style={{ color: 'var(--text-secondary)' }}>No admin users found</td>
                 </tr>
               )}
             </tbody>

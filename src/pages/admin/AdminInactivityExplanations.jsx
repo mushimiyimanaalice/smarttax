@@ -25,28 +25,28 @@ const AdminInactivityExplanations = () => {
 
   return (
     <div className="space-y-6">
-      <h1 className="text-xl sm:text-2xl font-bold text-slate-800">Submitted Explanations</h1>
+      <h1 className="text-xl sm:text-2xl font-bold text-theme-primary">Submitted Explanations</h1>
 
-      <div className="bg-white rounded-xl border border-slate-200 overflow-hidden">
+      <div className="bg-theme-card rounded-xl border border-theme overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead className="bg-slate-50">
               <tr>
-                <th className="text-left p-3 font-medium text-slate-600">Business</th>
-                <th className="text-left p-3 font-medium text-slate-600">Date</th>
-                <th className="text-left p-3 font-medium text-slate-600">Reason</th>
-                <th className="text-left p-3 font-medium text-slate-600">Description</th>
-                <th className="text-left p-3 font-medium text-slate-600">Status</th>
-                <th className="text-right p-3 font-medium text-slate-600">Actions</th>
+                <th className="text-left p-3 font-medium text-theme-secondary">Business</th>
+                <th className="text-left p-3 font-medium text-theme-secondary">Date</th>
+                <th className="text-left p-3 font-medium text-theme-secondary">Reason</th>
+                <th className="text-left p-3 font-medium text-theme-secondary">Description</th>
+                <th className="text-left p-3 font-medium text-theme-secondary">Status</th>
+                <th className="text-right p-3 font-medium text-theme-secondary">Actions</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100">
               {data.map((item, i) => (
                 <tr key={item._id || i} className="hover:bg-slate-50">
-                  <td className="p-3 font-medium text-slate-800">{item.businessId?.name || 'N/A'}</td>
-                  <td className="p-3 text-slate-600 text-xs">{item.date ? new Date(item.date).toLocaleDateString() : 'N/A'}</td>
+                  <td className="p-3 font-medium text-theme-primary">{item.businessId?.name || 'N/A'}</td>
+                  <td className="p-3 text-theme-secondary text-xs">{item.date ? new Date(item.date).toLocaleDateString() : 'N/A'}</td>
                   <td className="p-3 capitalize text-slate-700">{item.reason?.replace('_', ' ')}</td>
-                  <td className="p-3 text-slate-600 max-w-[200px] truncate">{item.description}</td>
+                  <td className="p-3 text-theme-secondary max-w-[200px] truncate">{item.description}</td>
                   <td className="p-3">
                     <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium ${
                       item.status === 'reviewed' ? 'bg-green-100 text-green-700' :

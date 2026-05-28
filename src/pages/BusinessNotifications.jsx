@@ -42,7 +42,7 @@ const BusinessNotifications = () => {
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
-        <h1 className="text-lg font-bold text-slate-800">Notifications</h1>
+        <h1 className="text-lg font-bold text-theme-primary">Notifications</h1>
         {unread > 0 && (
           <button onClick={markAllRead} className="text-xs text-green-600 font-medium flex items-center gap-1">
             <CheckCheck className="w-3 h-3" /> Mark all read
@@ -56,14 +56,14 @@ const BusinessNotifications = () => {
             key={n._id}
             onClick={() => !n.read && markRead(n._id)}
             className={`flex items-start gap-3 p-4 rounded-xl border cursor-pointer transition ${
-              n.read ? 'bg-white border-slate-200' : 'bg-green-50 border-green-200'
+              n.read ? 'bg-theme-card border-theme' : 'bg-green-50 border-green-200'
             }`}
           >
             <div className={`p-2 rounded-full ${n.read ? 'bg-slate-100' : 'bg-green-100'}`}>
               <Bell className={`w-4 h-4 ${n.read ? 'text-slate-400' : 'text-green-600'}`} />
             </div>
             <div className="flex-1 min-w-0">
-              <p className={`text-sm ${n.read ? 'text-slate-600' : 'font-medium text-slate-800'}`}>{n.title}</p>
+              <p className={`text-sm ${n.read ? 'text-theme-secondary' : 'font-medium text-theme-primary'}`}>{n.title}</p>
               <p className="text-xs text-slate-500 mt-0.5">{n.message}</p>
               <p className="text-[10px] text-slate-400 mt-1">
                 {n.createdAt ? new Date(n.createdAt).toLocaleString() : ''}

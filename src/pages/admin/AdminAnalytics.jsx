@@ -41,7 +41,7 @@ const AdminAnalytics = ({ scope = 'national' }) => {
 
   return (
     <div className="space-y-6">
-      <h1 className="text-xl sm:text-2xl font-bold text-slate-800">{titles[scope]}</h1>
+      <h1 className="text-xl sm:text-2xl font-bold text-theme-primary">{titles[scope]}</h1>
 
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
         <StatCard title="Total Revenue" value={`RWF ${(data?.totalRevenue ?? 0).toLocaleString()}`} icon={DollarSign} color="green" />
@@ -50,8 +50,8 @@ const AdminAnalytics = ({ scope = 'national' }) => {
         <StatCard title="Growth" value={`${data?.growth ?? 0}%`} icon={TrendingUp} color="amber" />
       </div>
 
-      <div className="bg-white rounded-xl border border-slate-200 p-4 sm:p-6">
-        <h2 className="text-base font-semibold text-slate-800 mb-4">Monthly Revenue</h2>
+      <div className="bg-theme-card rounded-xl border border-theme p-4 sm:p-6">
+        <h2 className="text-base font-semibold text-theme-primary mb-4">Monthly Revenue</h2>
         <div className="h-64 sm:h-80">
           <ResponsiveContainer width="100%" height="100%">
             <BarChart data={chartData}>
@@ -66,13 +66,13 @@ const AdminAnalytics = ({ scope = 'national' }) => {
       </div>
 
       {data?.topPerformers?.length > 0 && (
-        <div className="bg-white rounded-xl border border-slate-200 p-4 sm:p-6">
-          <h2 className="text-base font-semibold text-slate-800 mb-4">Top Performers</h2>
+        <div className="bg-theme-card rounded-xl border border-theme p-4 sm:p-6">
+          <h2 className="text-base font-semibold text-theme-primary mb-4">Top Performers</h2>
           <div className="space-y-3">
             {data.topPerformers.map((item, i) => (
               <div key={i} className="flex items-center justify-between p-3 bg-slate-50 rounded-lg">
                 <div>
-                  <p className="text-sm font-medium text-slate-800">{item.name}</p>
+                  <p className="text-sm font-medium text-theme-primary">{item.name}</p>
                   <p className="text-xs text-slate-500">{item.metric}</p>
                 </div>
                 <span className="text-sm font-semibold text-green-600">{item.value}</span>

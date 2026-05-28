@@ -30,7 +30,7 @@ const AdminAiInsights = () => {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-xl sm:text-2xl font-bold text-slate-800">AI Insights</h1>
+          <h1 className="text-xl sm:text-2xl font-bold text-theme-primary">AI Insights</h1>
           <p className="text-sm text-slate-500">Smart analytics powered by Umwishingizi AI</p>
         </div>
         <button onClick={fetchInsights} className="p-2 text-slate-500 hover:text-green-600 hover:bg-green-50 rounded-lg transition">
@@ -55,8 +55,8 @@ const AdminAiInsights = () => {
                  <Lightbulb className="w-5 h-5 text-blue-600" />}
               </div>
               <div>
-                <h3 className="text-sm font-semibold text-slate-800">{insight.title}</h3>
-                <p className="text-xs text-slate-600 mt-1">{insight.description}</p>
+                <h3 className="text-sm font-semibold text-theme-primary">{insight.title}</h3>
+                <p className="text-xs text-theme-secondary mt-1">{insight.description}</p>
                 {insight.metric && (
                   <p className="text-xs font-medium text-slate-500 mt-2">
                     {insight.metric.label}: <strong>{insight.metric.value}</strong>
@@ -75,8 +75,8 @@ const AdminAiInsights = () => {
       </div>
 
       {data?.prediction && (
-        <div className="bg-white rounded-xl border border-slate-200 p-4 sm:p-6">
-          <h2 className="text-base font-semibold text-slate-800 mb-4">Revenue Prediction (Next Quarter)</h2>
+        <div className="bg-theme-card rounded-xl border border-theme p-4 sm:p-6">
+          <h2 className="text-base font-semibold text-theme-primary mb-4">Revenue Prediction (Next Quarter)</h2>
           <div className="h-64 sm:h-80">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={data.prediction}>

@@ -27,7 +27,7 @@ const AdminProvincePerformance = () => {
 
   return (
     <div className="space-y-6">
-      <h1 className="text-xl sm:text-2xl font-bold text-slate-800">Province Performance</h1>
+      <h1 className="text-xl sm:text-2xl font-bold text-theme-primary">Province Performance</h1>
 
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
         <StatCard title="Best Province" value={data?.bestProvince?.name || 'N/A'} icon={TrendingUp} color="green" subtitle={`RWF ${(data?.bestProvince?.revenue ?? 0).toLocaleString()}`} />
@@ -36,8 +36,8 @@ const AdminProvincePerformance = () => {
         <StatCard title="Compliance Rate" value={`${data?.complianceRate ?? 0}%`} icon={CheckCircle} color={data?.complianceRate >= 80 ? 'green' : 'amber'} />
       </div>
 
-      <div className="bg-white rounded-xl border border-slate-200 p-4 sm:p-6">
-        <h2 className="text-base font-semibold text-slate-800 mb-4">Province Comparison</h2>
+      <div className=" bg-theme-card rounded-xl border border-theme p-4 sm:p-6">
+        <h2 className="text-base font-semibold text-theme-primary mb-4">Province Comparison</h2>
         <div className="h-64 sm:h-80">
           <ResponsiveContainer width="100%" height="100%">
             <BarChart data={data?.provinces || []} layout="vertical">
@@ -52,24 +52,24 @@ const AdminProvincePerformance = () => {
         </div>
       </div>
 
-      <div className="bg-white rounded-xl border border-slate-200 overflow-hidden">
-        <div className="p-4 border-b border-slate-200">
-          <h2 className="text-base font-semibold text-slate-800">All Provinces</h2>
+      <div className=" bg-theme-card rounded-xl border border-theme overflow-hidden">
+        <div className="p-4 border-b border-theme">
+          <h2 className="text-base font-semibold text-theme-primary">All Provinces</h2>
         </div>
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead className="bg-slate-50">
               <tr>
-                <th className="text-left p-3 font-medium text-slate-600">Province</th>
-                <th className="text-right p-3 font-medium text-slate-600">Revenue</th>
-                <th className="text-right p-3 font-medium text-slate-600">Businesses</th>
-                <th className="text-right p-3 font-medium text-slate-600">Compliance</th>
+                <th className="text-left p-3 font-medium text-theme-secondary">Province</th>
+                <th className="text-right p-3 font-medium text-theme-secondary">Revenue</th>
+                <th className="text-right p-3 font-medium text-theme-secondary">Businesses</th>
+                <th className="text-right p-3 font-medium text-theme-secondary">Compliance</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100">
               {(data?.provinces || []).map((p, i) => (
                 <tr key={i} className="hover:bg-slate-50">
-                  <td className="p-3 font-medium text-slate-800">{p.name}</td>
+                  <td className="p-3 font-medium text-theme-primary">{p.name}</td>
                   <td className="p-3 text-right text-slate-700">RWF {p.revenue.toLocaleString()}</td>
                   <td className="p-3 text-right text-slate-700">{p.businesses}</td>
                   <td className="p-3 text-right">

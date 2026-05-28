@@ -1,0 +1,126 @@
+================================================================================
+                      SMARTTAX RWANDA — ROLES SUMMARY
+================================================================================
+
+This document provides a comprehensive summary of all user roles, access scopes, 
+responsibilities, and technical enforcement rules within the SmartTax platform.
+
+The system implements a strict Rwanda-based geographic admin hierarchy ensuring 
+data isolation. Admins at lower levels can only access records in their specific 
+administrative scope, while national administrators have full nationwide access.
+
+--------------------------------------------------------------------------------
+1. NATIONAL ADMINISTRATOR (national_admin)
+--------------------------------------------------------------------------------
+- Geographic Scope: Nationwide (Entire Republic of Rwanda).
+- Middleware Access: Passes 'roleAuth' and bypasses 'geoScopeAuth' constraints.
+- Primary Responsibilities:
+  * Full, unrestricted read/write access to all businesses and financial data.
+  * Monitors nationwide tax revenue collection reports across all provinces.
+  * Accesses global compliance reports with calculated tax compliance rates.
+  * Accesses security Audit Logs to review all system modifications and admin actions.
+  * Views global business lists and daily inactivity monitoring patterns.
+- Front-End Navigation:
+  * Overview Dashboard (National stats)
+  * Pending Approvals (Nationwide)
+  * Businesses View (With search and province/district/sector filters)
+  * Tax Reports (Nationwide analytics)
+  * Compliance Reports
+  * Inactivity Monitoring
+  * Audit Logs
+
+--------------------------------------------------------------------------------
+2. PROVINCIAL ADMINISTRATOR (provincial_admin)
+--------------------------------------------------------------------------------
+- Geographic Scope: A specific assigned Province (e.g., Kigali City, Northern).
+- Middleware Access: Enforced by 'geoScopeAuth'. Queries filter records automatically 
+  where address.province equals the admin's assigned province.
+- Primary Responsibilities:
+  * Monitors and audits all businesses registered in their assigned province.
+  * Reviews provincial tax collection reports.
+  * Supervises district-level administrators and compliance rates in the province.
+  * Cannot view, search, or edit data belonging to any other province.
+- Front-End Navigation:
+  * Overview Dashboard (Provincial stats)
+  * Pending Approvals (Provincial level)
+  * Businesses View (Filtered by assigned Province)
+  * Tax Reports (Assigned Provincial analytics)
+
+--------------------------------------------------------------------------------
+3. DISTRICT ADMINISTRATOR (district_admin)
+--------------------------------------------------------------------------------
+- Geographic Scope: A specific assigned District (e.g., Gasabo, Nyarugenge).
+- Middleware Access: Enforced by 'geoScopeAuth'. Queries filter records automatically 
+  where address.district equals the admin's assigned district.
+- Primary Responsibilities:
+  * Monitors and audits all businesses registered in their assigned district.
+  * Reviews district tax collection reports.
+  * Reviews daily inactivity reports and patterns inside their district.
+  * Cannot view or modify data outside their assigned district and province.
+- Front-End Navigation:
+  * Overview Dashboard (District stats)
+  * Pending Approvals (District level)
+  * Businesses View (Filtered by assigned District)
+  * Tax Reports (Assigned District analytics)
+  * Inactivity Monitoring (District level)
+
+--------------------------------------------------------------------------------
+4. SECTOR ADMINISTRATOR (sector_admin)
+--------------------------------------------------------------------------------
+- Geographic Scope: A specific assigned Sector (e.g., Remera, Kimironko).
+- Middleware Access: Enforced by 'geoScopeAuth'. Queries filter records automatically 
+  where address.sector equals the admin's assigned sector.
+- Primary Responsibilities:
+  * Acts as the primary approval authority for new business registrations.
+  * Reviews pending businesses details inside their sector and can either APPROVE or REJECT.
+  * Monitors daily business activity and reviews submitted Inactivity Explanations 
+    from business owners (reasons like sickness, stock finished, or holiday).
+  * Flag potential tax evasion or suspicious patterns within the sector.
+  * Cannot view or modify data outside their assigned sector.
+- Front-End Navigation:
+  * Overview Dashboard (Sector stats)
+  * Pending Approvals (Sector level registration requests)
+  * Businesses View (Filtered by assigned Sector)
+  * Inactivity Monitoring (Reviews sector activity and submitted inactivity explanations)
+
+--------------------------------------------------------------------------------
+5. BUSINESS OWNER (business_owner)
+--------------------------------------------------------------------------------
+- Geographic Scope: Assigned to their registered businesses.
+- Middleware Access: Bound by the 'businessContext' middleware. Requests must include 
+  the active business ID (X-Business-Id header) owned by the current user.
+- Primary Responsibilities:
+  * Registers one or multiple businesses (Multi-Business Management support).
+  * Seamlessly switches between registered businesses via the Dashboard switcher.
+  * Manages separate sales records, products, invoices, and taxes per business.
+  * Accesses the "Umwishingizi" Multilingual AI assistant via text and microphone 
+    hold-to-talk voice commands in English, Kinyarwanda, and French.
+  * Resolves daily inactivity: if logged in but no sales/taxes are recorded by 6 PM, 
+    submits an Inactivity Explanation (e.g., sickness, no customers, travel) 
+    transmitting reports directly to the assigned Sector Admin.
+  * Pays pending tax liabilities securely via Mobile Money (MTN MoMo or Airtel Money).
+- Front-End Navigation:
+  * Home Dashboard (Active business stats: revenue, sales, products, pending tax)
+  * Products Management (Add, edit, view category/quantity/pricing)
+  * New Sales Cart (Issue invoices, input customer details, apply 18% VAT)
+  * Invoices List (Download PDF reports offline/online)
+  * Tax Management (Pay pending items, review payment history, MoMo gateway)
+  * Umwishingizi AI Chatbot & Voice Assistant Panel
+
+================================================================================
+                      TECHNICAL ACCESS ENFORCEMENT
+================================================================================
+
+1. roleAuth Middleware (backend/middleware/auth.js):
+   Restricts route endpoints to specific arrays of roles (e.g., authorizing only 
+   'sector_admin' for business approval actions).
+
+2. geoScopeAuth Middleware (backend/middleware/geoScopeAuth.js):
+   Extracts user administrative scope and appends a `req.geoFilter` matching 
+   the admin's province, district, and sector. Every data fetch database query 
+   automatically appends this filter to prevent leaks.
+
+3. businessContext Middleware (backend/middleware/businessContext.js):
+   Resolves active business scopes for business owners, validating ownership and 
+   enforcing that only active, approved businesses can process operations.
+================================================================================

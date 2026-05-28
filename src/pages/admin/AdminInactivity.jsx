@@ -18,11 +18,11 @@ const AdminInactivity = () => {
 
   return (
     <div className="space-y-8">
-      <h2 className="text-2xl font-bold text-slate-800">Inactivity monitoring</h2>
+      <h2 className="text-2xl font-bold text-theme-primary">Inactivity monitoring</h2>
 
       <section>
         <h3 className="text-lg font-semibold mb-3">Inactive today (no explanation yet)</h3>
-        <div className="bg-white rounded-xl border overflow-x-auto">
+        <div className="bg-theme-card rounded-xl border overflow-x-auto">
           <table className="w-full min-w-[600px] text-left text-sm">
             <thead className="bg-slate-50 border-b">
               <tr>
@@ -50,7 +50,7 @@ const AdminInactivity = () => {
 
       <section>
         <h3 className="text-lg font-semibold mb-3">Submitted explanations</h3>
-        <div className="bg-white rounded-xl border overflow-x-auto">
+        <div className="bg-theme-card rounded-xl border overflow-x-auto">
           <table className="w-full min-w-[700px] text-left text-sm">
             <thead className="bg-slate-50 border-b">
               <tr>

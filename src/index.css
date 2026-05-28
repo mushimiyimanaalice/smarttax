@@ -24,11 +24,52 @@
   --color-yellow-500: #eab308;
 }
 
+/* Theme variables */
+:root {
+  --bg-body: linear-gradient(180deg, #e8f5e9 0%, #f5f5ff 40%, #fff8e1 100%);
+  --bg-card: #ffffff;
+  --bg-card-hover: #f8fafc;
+  --bg-input: #ffffff;
+  --bg-sidebar: #003DA5;
+  --text-primary: #1e293b;
+  --text-secondary: #64748b;
+  --border-color: #e2e8f0;
+  --shadow: 0 1px 3px rgba(0,0,0,0.08);
+  --shadow-lg: 0 10px 25px rgba(0,0,0,0.08);
+  --header-bg: rgba(255,255,255,0.7);
+  --header-border: rgba(255,255,255,0.3);
+}
+
+[data-theme="dark"] {
+  --bg-body: linear-gradient(180deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
+  --bg-card: #1e293b;
+  --bg-card-hover: #334155;
+  --bg-input: #334155;
+  --bg-sidebar: #1e3a8a;
+  --text-primary: #f1f5f9;
+  --text-secondary: #94a3b8;
+  --border-color: #334155;
+  --shadow: 0 1px 3px rgba(0,0,0,0.3);
+  --shadow-lg: 0 10px 25px rgba(0,0,0,0.3);
+  --header-bg: rgba(15,23,42,0.85);
+  --header-border: rgba(51,65,85,0.5);
+}
+
 /* Base styles */
 body {
-  background-color: var(--color-gray-50);
+  background: var(--bg-body);
   font-family: system-ui, -apple-system, sans-serif;
   -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+}
+
+/* Hide scrollbar but keep functionality */
+* {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+*::-webkit-scrollbar {
+  display: none;
 }
 
 /* Mobile-first responsive container */
@@ -53,11 +94,17 @@ html {
 
 /* Card component */
 .card {
-  background-color: white;
+  background: var(--bg-card);
   border-radius: 0.75rem;
-  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-  border: 1px solid var(--color-gray-100);
+  border: 1px solid var(--border-color);
 }
+
+/* Theme utility classes */
+.bg-theme-card { background: var(--bg-card) !important; }
+.bg-theme-input { background: var(--bg-input) !important; }
+.border-theme { border-color: var(--border-color) !important; }
+.text-theme-primary { color: var(--text-primary) !important; }
+.text-theme-secondary { color: var(--text-secondary) !important; }
 
 /* Input field */
 .input-field {
@@ -137,4 +184,10 @@ html {
 
 .animate-slide-down {
   animation: slide-down 0.3s ease-out;
+}
+
+@layer base {
+  * {
+    font-family: "Poppins", sans-serif;
+  }
 }

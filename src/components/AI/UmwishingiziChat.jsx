@@ -344,7 +344,7 @@ const UmwishingiziChat = ({ open, onClose }) => {
                 className={`max-w-[78%] px-3.5 py-2.5 rounded-2xl shadow-sm leading-relaxed text-sm ${
                   isUser 
                     ? 'bg-green-600 text-white rounded-br-none' 
-                    : 'bg-white text-gray-800 rounded-bl-none border border-gray-200/60'
+                    : 'bg-theme-card text-gray-800 rounded-bl-none border border-gray-200/60'
                 }`}
               >
                 <p className="whitespace-pre-line">{msg.content}</p>
@@ -361,7 +361,7 @@ const UmwishingiziChat = ({ open, onClose }) => {
             <div className="w-7 h-7 rounded-full bg-green-600 flex items-center justify-center text-white shrink-0">
               <Bot className="w-4 h-4" />
             </div>
-            <div className="bg-white px-4 py-3 rounded-2xl rounded-bl-none shadow-sm border border-gray-100 flex gap-1 items-center shrink-0">
+            <div className="bg-theme-card px-4 py-3 rounded-2xl rounded-bl-none shadow-sm border border-gray-100 flex gap-1 items-center shrink-0">
               <span className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></span>
               <span className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></span>
               <span className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></span>
@@ -372,7 +372,7 @@ const UmwishingiziChat = ({ open, onClose }) => {
       </div>
 
       {/* Quick Action Suggestion Chips */}
-      <div className="bg-white border-t border-gray-100 py-2.5 px-3 overflow-x-auto whitespace-nowrap flex gap-2 scrollbar-none shrink-0">
+      <div className="bg-theme-card border-t border-gray-100 py-2.5 px-3 overflow-x-auto whitespace-nowrap flex gap-2 scrollbar-none shrink-0">
         {quickActions.map((action, idx) => (
           <button
             key={idx}
@@ -386,7 +386,7 @@ const UmwishingiziChat = ({ open, onClose }) => {
       </div>
 
       {/* Input Field & Microphone Actions Bar */}
-      <div className="bg-white border-t border-gray-200 px-3 py-3 flex items-center gap-2.5 shrink-0">
+      <div className="bg-theme-card border-t border-gray-200 px-3 py-3 flex items-center gap-2.5 shrink-0">
         <form 
           onSubmit={(e) => {
             e.preventDefault();

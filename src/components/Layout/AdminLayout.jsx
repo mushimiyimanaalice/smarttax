@@ -1,54 +1,56 @@
 import { Outlet } from 'react-router-dom';
-import { LogOut } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../../store/authStore';
-import { getRoleLabel } from '../../utils/roles';
+import { useThemeStore } from '../../store/themeStore';
+import { getRoleLabel, getAdminScopeLabel } from '../../utils/roles';
 import AdminSidebar from './AdminSidebar';
 import LanguageSwitcher from '../Common/LanguageSwitcher';
+import NotificationBell from '../Notifications/NotificationBell';
+import { Sun, Moon } from 'lucide-react';
 
 const AdminLayout = () => {
-  const { user, logout } = useAuthStore();
-  const navigate = useNavigate();
-
-  const handleLogout = () => {
-    logout();
-    navigate('/login');
-  };
+  const { user, token } = useAuthStore();
+  const { theme, toggleTheme } = useThemeStore();
 
   return (
-    <div className="min-h-screen bg-slate-100">
+    <div className="min-h-screen" style={{ background: 'var(--bg-body)' }}>
       <AdminSidebar />
 
       <div className="lg:pl-64 flex flex-col min-h-screen">
-        <header className="sticky top-0 z-30 bg-white border-b border-slate-200 shadow-sm">
-          <div className="px-6 lg:px-10 h-16 flex items-center justify-between">
-            <div>
-              <h1 className="text-lg font-semibold text-slate-800">SmartTax Admin</h1>
-              <p className="text-sm text-slate-500">{getRoleLabel(user?.role)}</p>
-            </div>
-            <div className="flex items-center gap-4">
-              <LanguageSwitcher />
-              <div className="hidden sm:block text-right">
-                <p className="text-sm font-medium text-slate-800">{user?.fullName}</p>
-                <p className="text-xs text-slate-500">{user?.email}</p>
+        <header
+          className="sticky top-0 z-30 border-b shadow-sm"
+          style={{ background: 'var(--header-bg)', borderColor: 'var(--header-border)', backdropFilter: 'blur(16px)' }}
+        >
+          <div className="px-4 lg:px-8 h-16 flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <div className="hidden lg:block">
+                <h1 className="text-lg font-semibold" style={{ color: '#003DA5' }}>SmartTax Admin</h1>
+                <p className="text-xs" style={{ color: '#00A551' }}>{getRoleLabel(user?.role)}</p>
               </div>
+              <div className="lg:hidden">
+                <p className="text-sm font-semibold" style={{ color: '#003DA5' }}>SmartTax</p>
+                <p className="text-[10px]" style={{ color: '#00A551' }}>{getAdminScopeLabel(user)}</p>
+              </div>
+            </div>
+            <div className="flex items-center gap-1 sm:gap-2">
               <button
-                type="button"
-                onClick={handleLogout}
-                className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-red-600 bg-red-50 rounded-lg hover:bg-red-100 transition"
+                onClick={toggleTheme}
+                className="p-2 rounded-lg transition-all duration-200 hover:bg-white/20 active:scale-90"
+                style={{ color: 'var(--text-primary)' }}
+                aria-label="Toggle theme"
               >
-                <LogOut className="w-4 h-4" />
-                Logout
+                {theme === 'dark' ? <Sun className="w-4.5 h-4.5" /> : <Moon className="w-4.5 h-4.5" />}
               </button>
+              <LanguageSwitcher />
+              <NotificationBell userId={user?.id || user?._id} token={token} />
+              <div className="hidden sm:block text-right text-xs ml-1">
+                <p className="font-medium" style={{ color: '#003DA5' }}>{user?.fullName}</p>
+                <p className="truncate max-w-[140px]" style={{ color: '#00A551' }}>{user?.email}</p>
+              </div>
             </div>
           </div>
         </header>
 
-        <div className="lg:hidden bg-amber-50 border-b border-amber-200 px-4 py-2 text-sm text-amber-900 text-center">
-          Admin console is designed for desktop. Use a PC for the best experience.
-        </div>
-
-        <main className="flex-1 p-6 lg:p-10 max-w-7xl w-full mx-auto">
+        <main className="flex-1 p-3 sm:p-4 lg:p-8 max-w-7xl w-full mx-auto">
           <Outlet />
         </main>
       </div>

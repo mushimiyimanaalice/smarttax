@@ -25,16 +25,18 @@ export default defineConfig({
     react(),
     tailwindcss(),
     VitePWA({
+      strategies: 'injectManifest',
+      srcDir: 'public',
+      filename: 'sw.js',
       registerType: 'autoUpdate',
       devOptions: {
         enabled: false,
       },
-      includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'masked-icon.svg'],
       manifest: {
         name: 'SmartTax Rwanda',
         short_name: 'SmartTax',
         description: 'Intelligent Tax Management Platform for Rwanda',
-        theme_color: '#10b981',
+        theme_color: '#003DA5',
         background_color: '#ffffff',
         display: 'standalone',
         scope: '/',

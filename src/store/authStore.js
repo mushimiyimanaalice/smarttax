@@ -17,6 +17,11 @@ export const useAuthStore = create(
           const { token, user } = response.data;
           localStorage.setItem('token', token);
           api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+          const bid = user?.activeBusinessId || user?.businessId;
+          if (bid) {
+            localStorage.setItem('activeBusinessId', bid);
+            api.defaults.headers.common['X-Business-Id'] = bid;
+          }
           set({ token, user, isLoading: false });
           return { success: true };
         } catch (error) {
@@ -33,6 +38,11 @@ export const useAuthStore = create(
           const { token, user } = response.data;
           localStorage.setItem('token', token);
           api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+          const bid = user?.activeBusinessId || user?.businessId;
+          if (bid) {
+            localStorage.setItem('activeBusinessId', bid);
+            api.defaults.headers.common['X-Business-Id'] = bid;
+          }
           set({ token, user, isLoading: false });
           return { success: true };
         } catch (error) {
@@ -52,14 +62,24 @@ export const useAuthStore = create(
         if (!token) return;
 
         api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+        const prevBid = localStorage.getItem('activeBusinessId');
+        if (prevBid) api.defaults.headers.common['X-Business-Id'] = prevBid;
         set({ token });
 
         try {
           const response = await api.get('/auth/me');
-          set({ user: response.data });
+          const user = response.data;
+          const bid = user?.activeBusinessId || user?.businessId || prevBid;
+          if (bid) {
+            localStorage.setItem('activeBusinessId', bid);
+            api.defaults.headers.common['X-Business-Id'] = bid;
+          }
+          set({ user });
         } catch {
           localStorage.removeItem('token');
+          localStorage.removeItem('activeBusinessId');
           delete api.defaults.headers.common['Authorization'];
+          delete api.defaults.headers.common['X-Business-Id'];
           set({ token: null, user: null });
         }
       },

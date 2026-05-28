@@ -24,11 +24,11 @@ const BusinessSwitcher = () => {
       <button
         type="button"
         onClick={() => setOpen(!open)}
-        className="w-full flex items-center justify-between gap-2 px-4 py-3 bg-white border border-gray-200 rounded-xl shadow-sm"
+        className="w-full flex items-center justify-between gap-2 px-4 py-3 bg-theme-card border border-theme rounded-xl shadow-sm"
       >
         <div className="flex items-center gap-2 min-w-0">
           <Building2 className="w-5 h-5 text-green-600 shrink-0" />
-          <span className="font-medium text-gray-800 truncate">
+          <span className="font-medium text-theme-primary truncate">
             {activeBusiness?.name || 'Select business'}
           </span>
         </div>
@@ -36,7 +36,7 @@ const BusinessSwitcher = () => {
       </button>
 
       {open && (
-        <div className="absolute z-50 mt-1 w-full bg-white border border-gray-200 rounded-xl shadow-lg max-h-60 overflow-y-auto">
+        <div className="absolute z-50 mt-1 w-full bg-theme-card border border-theme rounded-xl shadow-lg max-h-60 overflow-y-auto">
           {businesses.map((b) => (
             <button
               key={b._id}

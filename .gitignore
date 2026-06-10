@@ -25,3 +25,6 @@ dist-ssr
 
 # backend (separate repo)
 backend/
+
+# environment variables (local dev only)
+.env

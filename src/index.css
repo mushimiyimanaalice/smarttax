@@ -105,6 +105,7 @@ html {
 .border-theme { border-color: var(--border-color) !important; }
 .text-theme-primary { color: var(--text-primary) !important; }
 .text-theme-secondary { color: var(--text-secondary) !important; }
+.placeholder-theme-secondary::placeholder { color: var(--text-secondary) !important; }
 
 /* Input field */
 .input-field {

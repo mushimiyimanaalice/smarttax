@@ -258,7 +258,7 @@ const UmwishingiziChat = ({ open, onClose }) => {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex flex-col bg-slate-50 md:max-w-md md:mx-auto md:shadow-2xl md:border-x md:border-gray-200">
+    <div className="fixed inset-0 z-50 flex flex-col bg-theme-card md:max-w-md md:mx-auto md:shadow-2xl md:border-x border-theme">
       {/* Premium WhatsApp-style Dark Green Header */}
       <div className="bg-green-700 text-white px-4 py-3 flex items-center justify-between shadow-md shrink-0">
         <div className="flex items-center gap-3">
@@ -321,9 +321,9 @@ const UmwishingiziChat = ({ open, onClose }) => {
       </div>
 
       {/* Messages Scroll Area */}
-      <div className="flex-1 overflow-y-auto px-4 py-4 space-y-4 bg-[#efeae2] relative">
+      <div className="flex-1 overflow-y-auto px-4 py-4 space-y-4 bg-[#efeae2] dark:bg-[#1e293b] relative">
         <div className="text-center my-2">
-          <span className="text-[11px] bg-white/75 text-gray-500 px-2.5 py-1 rounded-md shadow-sm border border-gray-200/50">
+          <span className="text-[11px] bg-white/75 dark:bg-gray-700/75 text-gray-500 dark:text-gray-300 px-2.5 py-1 rounded-md shadow-sm border border-gray-200/50 dark:border-gray-600/50">
             {i18n.language === 'rw' ? 'Ibiganiro birinzwe muri SmartTax' : i18n.language === 'fr' ? 'Chiffrement sécurisé SmartTax' : 'End-to-end secure SmartTax assistant'}
           </span>
         </div>
@@ -344,11 +344,11 @@ const UmwishingiziChat = ({ open, onClose }) => {
                 className={`max-w-[78%] px-3.5 py-2.5 rounded-2xl shadow-sm leading-relaxed text-sm ${
                   isUser 
                     ? 'bg-green-600 text-white rounded-br-none' 
-                    : 'bg-theme-card text-gray-800 rounded-bl-none border border-gray-200/60'
+                    : 'bg-theme-card text-theme-primary rounded-bl-none border border-theme'
                 }`}
               >
                 <p className="whitespace-pre-line">{msg.content}</p>
-                <p className={`text-[10px] text-right mt-1.5 ${isUser ? 'text-green-200' : 'text-gray-400'}`}>
+                <p className={`text-[10px] text-right mt-1.5 ${isUser ? 'text-green-200' : 'text-theme-secondary'}`}>
                   {new Date(msg.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                 </p>
               </div>
@@ -361,7 +361,7 @@ const UmwishingiziChat = ({ open, onClose }) => {
             <div className="w-7 h-7 rounded-full bg-green-600 flex items-center justify-center text-white shrink-0">
               <Bot className="w-4 h-4" />
             </div>
-            <div className="bg-theme-card px-4 py-3 rounded-2xl rounded-bl-none shadow-sm border border-gray-100 flex gap-1 items-center shrink-0">
+            <div className="bg-theme-card px-4 py-3 rounded-2xl rounded-bl-none shadow-sm border border-theme flex gap-1 items-center shrink-0">
               <span className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></span>
               <span className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></span>
               <span className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></span>
@@ -372,13 +372,13 @@ const UmwishingiziChat = ({ open, onClose }) => {
       </div>
 
       {/* Quick Action Suggestion Chips */}
-      <div className="bg-theme-card border-t border-gray-100 py-2.5 px-3 overflow-x-auto whitespace-nowrap flex gap-2 scrollbar-none shrink-0">
+      <div className="bg-theme-card border-t border-theme py-2.5 px-3 overflow-x-auto whitespace-nowrap flex gap-2 scrollbar-none shrink-0">
         {quickActions.map((action, idx) => (
           <button
             key={idx}
             type="button"
             onClick={() => sendMessage(action.query)}
-            className="px-3.5 py-1.5 bg-gray-50 border border-gray-200 text-gray-700 rounded-full text-xs font-medium hover:bg-green-50 hover:text-green-700 hover:border-green-300 transition shrink-0 shadow-sm"
+            className="px-3.5 py-1.5 bg-theme-card border border-theme text-theme-primary rounded-full text-xs font-medium hover:bg-green-50 hover:text-green-700 hover:border-green-300 dark:hover:bg-green-900/30 transition shrink-0 shadow-sm"
           >
             {action.label}
           </button>
@@ -386,13 +386,13 @@ const UmwishingiziChat = ({ open, onClose }) => {
       </div>
 
       {/* Input Field & Microphone Actions Bar */}
-      <div className="bg-theme-card border-t border-gray-200 px-3 py-3 flex items-center gap-2.5 shrink-0">
+      <div className="bg-theme-card border-t border-theme px-3 py-3 flex items-center gap-2.5 shrink-0">
         <form 
           onSubmit={(e) => {
             e.preventDefault();
             sendMessage();
           }} 
-          className="flex-1 flex items-center bg-gray-50 border border-gray-200 rounded-full px-4.5 py-1.5 focus-within:border-green-500 transition"
+          className="flex-1 flex items-center bg-theme-input border border-theme rounded-full px-4.5 py-1.5 focus-within:border-green-500 transition"
         >
           <input
             type="text"
@@ -405,7 +405,7 @@ const UmwishingiziChat = ({ open, onClose }) => {
                 ? 'Demander à Umwishingizi...' 
                 : 'Ask Umwishingizi...'
             }
-            className="flex-1 bg-transparent border-0 outline-none py-1.5 text-sm text-gray-800 placeholder-gray-400"
+            className="flex-1 bg-transparent border-0 outline-none py-1.5 text-sm text-theme-primary placeholder-theme-secondary"
           />
           {inputText.trim() && (
             <button

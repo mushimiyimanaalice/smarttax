@@ -276,7 +276,7 @@ const Sales = () => {
         <div
           style={{
             position: 'fixed',
-            bottom: 0,
+            bottom: 43,
             left: 0,
             right: 0,
             background: 'var(--bg-card)',
